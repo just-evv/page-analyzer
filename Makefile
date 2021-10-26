@@ -21,5 +21,5 @@ migrate:
 test:
 	php artisan test
 
-lint:
-	composer phpcs
+
+
