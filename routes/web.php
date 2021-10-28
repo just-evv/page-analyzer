@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/urls', function () {
     return view('urls');
+});
+
+$urls = DB::select('select * from urls');
+
+Route::get('/urls/{id}', function () {
+    return view('url');
 });
