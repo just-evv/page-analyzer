@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
@@ -15,16 +16,14 @@ use Illuminate\Support\Facades\DB;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::match(['get', 'post'], '/', [UrlController::class, 'main']);
+
+Route::match(['get', 'post'],'/url',[UrlController::class,'store']);
 
 Route::get('/urls', function () {
     return view('urls');
-});
+})->name('url');
 
-$urls = DB::select('select * from urls');
 
-Route::get('/urls/{id}', function () {
-    return view('url');
-});
