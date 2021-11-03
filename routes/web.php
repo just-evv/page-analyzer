@@ -17,11 +17,9 @@ use Illuminate\Support\Facades\DB;
 */
 
 
+Route::get('/', [UrlController::class, 'index']);
 
-
-Route::match(['get', 'post'], '/', [UrlController::class, 'index']);
-
-Route::match(['get', 'post'],'/url',[UrlController::class,'store']);
+Route::post('/', [UrlController::class,'store']);
 
 Route::get('/urls/{id}', [UrlController::class, 'showOne'])->name('urls');
 

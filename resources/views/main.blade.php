@@ -18,7 +18,7 @@
         </div>
     @endif
 
-    <form action="/url" method="post">
+    <form action="/" method="post">
         @csrf <!-- {{ csrf_field() }} -->
         <div>
             <label>
