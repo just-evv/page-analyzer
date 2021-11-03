@@ -23,9 +23,7 @@ Route::match(['get', 'post'], '/', [UrlController::class, 'index']);
 
 Route::match(['get', 'post'],'/url',[UrlController::class,'store']);
 
-Route::get('/urls/{id}', function ($id) {
-        return view('urls', ['id' => $id]);
-    })->name('urls');
+Route::get('/urls/{id}', [UrlController::class, 'showOne'])->name('urls');
 
 Route::get('/urls', [UrlController::class, 'showAll'])->name('allUrls');
 
