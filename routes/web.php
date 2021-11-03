@@ -19,12 +19,14 @@ use Illuminate\Support\Facades\DB;
 
 
 
-Route::match(['get', 'post'], '/', [UrlController::class, 'main']);
+Route::match(['get', 'post'], '/', [UrlController::class, 'index']);
 
 Route::match(['get', 'post'],'/url',[UrlController::class,'store']);
 
-Route::get('/url/{id}', function ($id) {
-        return view('url', ['id' => $id]);
-    })->name('url');
+Route::get('/urls/{id}', function ($id) {
+        return view('urls', ['id' => $id]);
+    })->name('urls');
+
+Route::get('/urls', [UrlController::class, 'showAll'])->name('allUrls');
 
 

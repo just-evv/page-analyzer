@@ -9,14 +9,15 @@ use Illuminate\Support\Facades\DB;
 class UrlController extends Controller
 {
 
-    public function main()
+    public function index()
     {
         return view('main');
     }
 
-    public function show()
+    public function showAll()
     {
-
+        $data = DB::table('urls')->get();
+        return view('urls', ['data' => $data]);
     }
 
     public function store(Request $request)
@@ -30,7 +31,7 @@ class UrlController extends Controller
             'name' => $name]);
         $id = DB::table('urls')->where('name', '=', $name)->value('id');
 
-        return redirect()->route('url', ['id' => $id]);
+        return redirect()->route('urls', ['id' => $id]);
 
     }
 
