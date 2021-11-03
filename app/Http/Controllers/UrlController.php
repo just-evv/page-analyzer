@@ -9,8 +9,14 @@ use Illuminate\Support\Facades\DB;
 class UrlController extends Controller
 {
 
-    public function main(){
+    public function main()
+    {
         return view('main');
+    }
+
+    public function show()
+    {
+
     }
 
     public function store(Request $request)
@@ -22,8 +28,10 @@ class UrlController extends Controller
         $name = $request->input('name');
         DB::table('urls')->insert([
             'name' => $name]);
-        return redirect()->route('url');
+        $id = DB::table('urls')->where('name', '=', $name)->value('id');
 
-        // The blog post is valid...
+        return redirect()->route('url', ['id' => $id]);
+
     }
+
 };

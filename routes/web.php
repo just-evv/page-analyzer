@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -22,8 +23,8 @@ Route::match(['get', 'post'], '/', [UrlController::class, 'main']);
 
 Route::match(['get', 'post'],'/url',[UrlController::class,'store']);
 
-Route::get('/urls', function () {
-    return view('urls');
-})->name('url');
+Route::get('/url/{id}', function ($id) {
+        return view('url', ['id' => $id]);
+    })->name('url');
 
 
