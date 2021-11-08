@@ -10,7 +10,7 @@ compose:
 	docker-compose up
 
 lint:
-	composer phpcs
+	composer run-script phpcs routes/web.php app/Http/Controllers/UrlController.php
 
 deploy:
 	git push heroku main
