@@ -5,8 +5,9 @@ setup:
 	composer install
 	cp -n .env.example .env|| true
 	php artisan key:gen --ansi
-
-	php artisan migrate
+	docker compose exec laravel.test  php artisan migrate:install
+	docker compose exec laravel.test php artisan make:migration create_urls_table
+	docker compose exec laravel.test php artisan migrate
 	npm install
 
 compose:
