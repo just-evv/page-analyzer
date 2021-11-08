@@ -4,8 +4,9 @@ start:
 setup:
 	composer install
 	cp -n .env.example .env|| true
+	sail up
 	php artisan key:gen --ansi
-	php artisan migrate
+	sail artisan migrate
 	npm install
 
 compose:
