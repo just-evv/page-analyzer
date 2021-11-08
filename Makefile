@@ -5,12 +5,13 @@ setup:
 	composer install
 	cp -n .env.example .env|| true
 	php artisan key:gen --ansi
+	npm install
 
 compose:
 	docker-compose up
 
 lint:
-	composer phpcs
+	composer run-script phpcs -- --standard=PSR12 app/Http/Controllers
 
 deploy:
 	git push heroku main
@@ -21,5 +22,6 @@ migrate:
 test:
 	php artisan test
 
-
+test-coverage:
+	./vendor/bin/phpunit --coverage-clover coverage.xml tests
 

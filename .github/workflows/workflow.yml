@@ -1,7 +1,7 @@
 
 name: PHP CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   - push
@@ -28,10 +28,10 @@ jobs:
         with:
           # Specify the PHP version
           php-version: '8.0'
-      
+
       - name: Install
         # Install project
-        run: make install
+        run: make setup
 
       - name: Run linter
         # Run Linter
