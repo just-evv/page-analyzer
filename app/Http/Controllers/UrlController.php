@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -31,7 +34,7 @@ class UrlController extends Controller
         return view('url', ['url' => $url]);
     }
 
-    public function store(Request $request): object
+    public function store(Request $request): Application|RedirectResponse|Redirector
     {
         $validator = Validator::make(
             $request->all(),
@@ -58,4 +61,4 @@ class UrlController extends Controller
 
         return redirect()->route('urls', ['id' => $id]);
     }
-};
+}
