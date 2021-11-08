@@ -22,5 +22,6 @@ migrate:
 test:
 	php artisan test
 
-
+test-coverage:
+	./vendor/bin/phpunit --coverage-clover coverage.xml tests
 
