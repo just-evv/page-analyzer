@@ -33,8 +33,8 @@ jobs:
         # Install project
         run: composer install
 
-      - name: Run sail
-        run: sail up -d
+      - name: Compose
+        run: make compose
 
       - name: Run linter
         # Run Linter

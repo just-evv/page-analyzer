@@ -8,7 +8,7 @@ setup:
 	npm install
 
 compose:
-	docker-compose up
+	docker-compose up -d
 
 lint:
 	composer run-script phpcs -- --standard=PSR12 app/Http/Controllers
