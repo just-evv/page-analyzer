@@ -50,13 +50,13 @@
 
     <h2 class="display-7 text-center">Check url for seo-readiness</h2>
 
-    <form class="form-inline" action="/" method="post" >
+    <form class="form d-flex justify-content-center" action="/" method="post" >
 
         @csrf <!-- {{ csrf_field() }} -->
             <label>
                 <input class="form-control form-control-lg m-2" type="text" required name="name" placeholder="http://example.com">
             </label>
-            <button type="submit" class="btn btn-primary btn-lg m-2">Check url </button>
+            <button type="submit" class="btn btn-primary btn-lg ml-3">Check url </button>
         </form>
 
 
