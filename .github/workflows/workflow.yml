@@ -30,8 +30,14 @@ jobs:
           php-version: '8.0'
 
       - name: Install
+        run: make install
+
+      - name: Compose
+        run: make compose
+
+     # - name: Install
         # Install project
-        run: make setup
+     #   run: make setup
 
       - name: Run linter
         # Run Linter

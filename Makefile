@@ -8,6 +8,14 @@ setup:
 	php artisan migrate
 	npm install
 
+docker-setup:
+	docker run composer:latest composer install
+
+install:
+	composer install
+	cp -n .env.example .env || true
+
+
 compose:
 	docker-compose up -d
 
