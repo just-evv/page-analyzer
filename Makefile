@@ -9,7 +9,7 @@ setup:
 	npm install
 
 docker-setup:
-	echo $PWD
+	echo $pwd
 
 
 install:
