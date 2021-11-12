@@ -5,8 +5,13 @@ setup:
 	composer install
 	cp -n .env.example .env|| true
 	php artisan key:gen --ansi
-	docker compose exec laravel.test php artisan migrate
+	php artisan migrate
 	npm install
+
+docker-setup:
+	@echo $(PWD)
+	#docker run --rm -v $PWD:/app composer/composer:latest install
+
 
 install:
 	composer install
