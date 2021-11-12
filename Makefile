@@ -10,7 +10,7 @@ setup:
 
 docker-setup:
 	@echo $(PWD)
-	#docker run --rm -v $PWD:/app composer/composer:latest install
+	docker run --rm -v $(PWD):/app composer/composer:latest install
 
 
 install:
