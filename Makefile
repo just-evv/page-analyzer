@@ -12,8 +12,9 @@ docker-setup:
 	docker run --rm -v $(PWD):/app composer/composer:latest install
 	cp -n .env.example .env|| true
 	php artisan key:gen --ansi
-	sail up
-	sail artisan migrate:install
+	docker run -d -p 5432:5432 postgres:13
+	php artisan migrate
+
 
 install:
 	composer install
