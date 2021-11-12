@@ -30,25 +30,26 @@ jobs:
           php-version: '8.0'
 
       - name: Install
-        run: make install
+        #run: make install
+        run: make docker-setup
 
-      - name: Compose
-        run: make compose
+      #- name: Compose
+      #  run: make compose
 
      # - name: Install
         # Install project
      #   run: make setup
 
-      - name: Run linter
+      #- name: Run linter
         # Run Linter
-        run: make lint
+      #  run: make lint
 
-      - name: Run tests & publish code coverage
-        uses: paambaati/codeclimate-action@v2.7.4
-        env:
-          CC_TEST_REPORTER_ID: ${{secrets.CODE_CLIMATE_SECRET}}
-          XDEBUG_MODE: coverage
-        with:
-          coverageCommand: make test-coverage
-          coverageLocations: |
-            ${{github.workspace}}/coverage.xml:clover
+      #- name: Run tests & publish code coverage
+      #  uses: paambaati/codeclimate-action@v2.7.4
+      #  env:
+      #    CC_TEST_REPORTER_ID: ${{secrets.CODE_CLIMATE_SECRET}}
+      #    XDEBUG_MODE: coverage
+      #  with:
+      #    coverageCommand: make test-coverage
+      #    coverageLocations: |
+      #      ${{github.workspace}}/coverage.xml:clover
