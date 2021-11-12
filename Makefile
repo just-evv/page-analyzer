@@ -9,7 +9,8 @@ setup:
 	npm install
 
 docker-setup:
-	docker run --rm -v "/$(pwd)":/app composer/composer:latest install
+	echo $(pwd)
+	docker run --rm -v $PWD:/app composer/composer:latest install
 
 
 install:
