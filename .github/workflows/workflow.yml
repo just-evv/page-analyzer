@@ -31,7 +31,7 @@ jobs:
 
       - name: Install
         #run: make install
-        run: make docker-setup
+        run: setup
 
       #- name: Compose
       #  run: make compose
