@@ -12,8 +12,8 @@ docker-setup:
 	docker run --rm -v $(PWD):/app composer/composer:latest install
 	cp -n .env.example .env|| true
 	php artisan key:gen --ansi
-
-	docker compose exec analyzer php artisan migrate
+	docker-compose up -d
+	docker exec analyzer php artisan migrate
 
 
 install:
