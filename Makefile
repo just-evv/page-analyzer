@@ -13,7 +13,7 @@ docker-setup:
 	cp -n .env.example .env|| true
 	php artisan key:gen --ansi
 	docker-compose up -d
-	docker exec analyzer php artisan migrate
+	docker-compose exec analyzer php artisan migrate
 
 
 install:
