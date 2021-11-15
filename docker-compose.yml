@@ -28,6 +28,7 @@ services:
             - selenium
     pgsql:
         image: 'postgres:13'
+        hostname: db
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
         environment:
