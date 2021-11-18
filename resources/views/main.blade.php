@@ -44,26 +44,34 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-<div class="container-expand-md bg-dark text-white align-items-center">
+<div class="container-fluid bg-dark text-white align-items-center">
+    <div class="container-md p-5">
+        <h1 class="display-1">Web-site analyzer</h1>
 
-    <h1 class="display-1 text-center" >Analyzer</h1>
+        <h2 class="display-7">Validate web-site for seo-readiness</h2>
 
-    <h2 class="display-7 text-center">Check url for seo-readiness</h2>
-
-    <form class="form d-flex justify-content-center" action="/" method="post" >
+        <form class="form-inline" action="/" method="post" >
 
         @csrf <!-- {{ csrf_field() }} -->
-            <label>
-                <input class="form-control form-control-lg m-2" type="text" required name="name" placeholder="http://example.com">
-            </label>
-            <button type="submit" class="btn btn-primary btn-lg ml-3">Check url </button>
+            <div class="form-row align-items-center">
+                <div class="col-md-6 my-1">
+                    <label class="sr-only" for="inlineFormInput">Name</label>
+                    <input type="text"  class="form-control mb-3" id="inlineFormInput" required name="name" placeholder="http://example.com">
+                </div>
+                <div class="col-auto my-1">
+                    <button type="submit" class="btn btn-primary mb-2">Check url</button>
+                </div>
+            </div>
         </form>
+
+
+    </div>
 
 
 </div>
 
-<footer class="border-top py-3 mt-5 flex-shrink-0">
-    <div class="container-lg">
+<footer class="footer mt-auto py-3">
+    <div class="container-fluid">
         <div class="text-center">
             <a>Analyzer</a>
         </div>

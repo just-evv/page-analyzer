@@ -31,7 +31,7 @@ class UrlController extends Controller
             ->where('id', '=', $id)
             ->get();
 
-        return view('url', ['url' => $url]);
+        return view('url', ['url' => $url[0]]);
     }
 
     public function store(Request $request): Application|RedirectResponse|Redirector
