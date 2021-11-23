@@ -29,9 +29,9 @@
     </nav>
 </header>
 
-<div class="alert alert-primary" role="alert">
-    The page successfully added!
-</div>
+
+@include('flash::message')
+
 
 <div class="container-md align-items-center">
 

@@ -45,7 +45,6 @@ class UrlController extends Controller
         );
 
         if ($validator->fails()) {
-            flash('Errors')->error();
             return redirect('/')
                 ->withErrors($validator)
                 ->withInput();
@@ -59,7 +58,7 @@ class UrlController extends Controller
                 'created_at' => $date
             ]
         );
-
+        flash('The page successfully added!')->success()->important();
         return redirect()->route('urls', ['id' => $id]);
     }
 }

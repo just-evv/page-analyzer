@@ -48,7 +48,7 @@
         @foreach ($data as $url)
             <tr>
                 <td>{{ $url->id }}</td>
-                <td>{{ $url->name }}</td>
+                <td><a class="nav-link" href="/urls/{{ $url->id }}"> {{ $url->name }} </a></td>
                 <td></td>
                 <td></td>
             </tr>
