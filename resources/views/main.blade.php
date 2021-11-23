@@ -1,53 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <title>Analyzator</title>
 </head>
 
-<body>
-<header class="container-fluid">
-    <nav>
-        <ul>
-            <li><a href="/">Analyzator</a></li>
-            <li><a href="/">Main</a></li>
-            <li><a href="/urls">Sites</a></li>
-        </ul>
+<body class="min-vh-100 d-flex flex-column">
+
+<header class="flex-shrink-0">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Analyzer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Main</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/urls">Added</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 </header>
-<h1 class="text-center">Analyzer</h1>
+
+@if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show container-fluid mb-0" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-<div class="container">
-    <h2 class="text-center">Check url</h2>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            @include('flash::message')
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+<main class="flex-grow-1">
+    <div class="jumbotron jumbotron-fluid bg-dark">
+        <div class="container-lg">
+            <div class="row">
+                <div class="col-12 col-md-10 col-lg-8 mx-auto text-white">
+                    <h1 class="display-3">Website analyzer</h1>
+                    <p class="lead">Validate website for seo</p>
+                    <form action="/" method="post" class="d-flex justify-content-center">
+                    @csrf <!-- {{ csrf_field() }} -->
+                        <input type="text" name="name" value="" class="form-control form-control-lg" placeholder="https://www.example.com">
+                        <button type="submit" class="btn btn-primary ml-3 px-5 text-uppercase">Check</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    @endif
+    </div>
+</main>
 
-    <form action="/" method="post">
-        @csrf <!-- {{ csrf_field() }} -->
-        <div>
-            <label>
-                url
-                <input type="text" required name="name" >
-            </label>
+
+<footer class="border-top mt-5 footer mt-auto py-3">
+    <div class="container-fluid">
+        <div class="text-center">
+            <a href="https://github.com/just-evv/php-project-lvl3" target="_blank">Analyzer</a>
         </div>
-        <input type="submit" value="Check">
-    </form>
-</div>
+    </div>
+</footer>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 </body>

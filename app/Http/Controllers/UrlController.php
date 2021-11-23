@@ -21,8 +21,9 @@ class UrlController extends Controller
 
     public function showAll(): object
     {
-        $data = DB::table('urls')->get();
-        return view('urls', ['data' => $data]);
+        //$data = DB::table('urls')->get();
+
+        return view('urls', ['data' => DB::table('urls')->paginate(15)]);
     }
 
     public function showOne(int $id): object
@@ -31,7 +32,7 @@ class UrlController extends Controller
             ->where('id', '=', $id)
             ->get();
 
-        return view('url', ['url' => $url]);
+        return view('url', ['url' => $url[0]]);
     }
 
     public function store(Request $request): Application|RedirectResponse|Redirector
@@ -44,7 +45,6 @@ class UrlController extends Controller
         );
 
         if ($validator->fails()) {
-            flash('Errors')->error();
             return redirect('/')
                 ->withErrors($validator)
                 ->withInput();
@@ -58,7 +58,7 @@ class UrlController extends Controller
                 'created_at' => $date
             ]
         );
-
+        flash('The page successfully added!')->success()->important();
         return redirect()->route('urls', ['id' => $id]);
     }
 }
