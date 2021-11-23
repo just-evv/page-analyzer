@@ -21,8 +21,9 @@ class UrlController extends Controller
 
     public function showAll(): object
     {
-        $data = DB::table('urls')->get();
-        return view('urls', ['data' => $data]);
+        //$data = DB::table('urls')->get();
+
+        return view('urls', ['data' => DB::table('urls')->paginate(15)]);
     }
 
     public function showOne(int $id): object

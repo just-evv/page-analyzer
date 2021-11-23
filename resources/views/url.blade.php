@@ -35,7 +35,7 @@
 
 <div class="container-md align-items-center">
 
-<h1 class="display-4">Web-page: {{ $url->name }}</h1>
+<h1 class="display-4">Website: {{ $url->name }}</h1>
 
     <table class="table table-bordered table-hover my-3">
         <tr>
@@ -71,6 +71,16 @@
 
 </div>
 
+
+<footer class="border-top mt-5 footer mt-auto py-3">
+    <div class="container-fluid">
+        <div class="text-center">
+            <a href="https://github.com/just-evv/php-project-lvl3" target="_blank">Analyzer</a>
+        </div>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
 </body>
 </html>
