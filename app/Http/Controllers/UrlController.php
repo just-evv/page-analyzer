@@ -21,18 +21,27 @@ class UrlController extends Controller
 
     public function showAll(): object
     {
-        //$data = DB::table('urls')->get();
+        $data = DB::table('urls')
+            ->select('urls.id', 'urls.name', DB::raw('MAX(url_checks.created_at) as last_check'))
+            ->leftJoin('url_checks', 'urls.id', '=', 'url_checks.url_id')
+            ->groupBy('urls.id')
+            ->orderBy('urls.id', 'asc')
+            ->paginate(15);
 
-        return view('urls', ['data' => DB::table('urls')->paginate(15)]);
+        return view('urls', [
+            'data' => $data
+        ]);
     }
 
     public function showOne(int $id): object
     {
-        $url = DB::table('urls')
-            ->where('id', '=', $id)
+        $url = DB::table('urls')->find($id);
+
+        $checks = DB::table('url_checks')
+            ->where('url_id', $id)
             ->get();
 
-        return view('url', ['url' => $url[0]]);
+        return view('url', ['url' => $url, 'checks' => $checks]);
     }
 
     public function store(Request $request): Application|RedirectResponse|Redirector
@@ -59,6 +68,22 @@ class UrlController extends Controller
             ]
         );
         flash('The page successfully added!')->success()->important();
+        return redirect()->route('urls', ['id' => $id]);
+    }
+
+    public function checkUrl($id)
+    {
+        $date = Carbon::now()->toDateTimeString();
+
+        DB::table('url_checks')->insert(
+            [
+                'url_id' => $id,
+                'created_at' => $date
+            ]
+        );
+
+        flash('The page successfully checked!')->success()->important();
+
         return redirect()->route('urls', ['id' => $id]);
     }
 }
