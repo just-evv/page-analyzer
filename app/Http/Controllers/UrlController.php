@@ -25,9 +25,7 @@ class UrlController extends Controller
 
         $data = DB::table('urls')
             ->leftJoin('url_checks', 'urls.id', '=', 'url_checks.url_id')
-            ->groupBy('url_checks.url_id')
-            ->latest('url_checks.created_at')
-            ->first()
+
             ->select('urls.id', 'urls.name', 'url_checks.created_at')
             ->paginate(15);
 
