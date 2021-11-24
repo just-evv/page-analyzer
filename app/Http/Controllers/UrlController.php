@@ -21,17 +21,15 @@ class UrlController extends Controller
 
     public function showAll(): object
     {
-
-
         $data = DB::table('urls')
+            ->select('urls.id', 'urls.name', DB::raw('MAX(url_checks.created_at) as last_check'))
             ->leftJoin('url_checks', 'urls.id', '=', 'url_checks.url_id')
-
-            ->select('urls.id', 'urls.name', 'url_checks.created_at')
+            ->groupBy('urls.id')
+            ->orderBy('urls.id', 'asc')
             ->paginate(15);
 
         return view('urls', [
             'data' => $data
-
         ]);
     }
 

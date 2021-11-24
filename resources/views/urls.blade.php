@@ -49,7 +49,7 @@
             <tr>
                 <td>{{ $url->id }}</td>
                 <td><a class="nav-link" href="/urls/{{ $url->id }}"> {{ $url->name }} </a></td>
-                <td>{{ $url->created_at }}</td>
+                <td>{{ $url->last_check }}</td>
                 <td></td>
             </tr>
         @endforeach
