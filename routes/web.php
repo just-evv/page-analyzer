@@ -25,4 +25,6 @@ Route::get('/urls/{id}', [UrlController::class, 'showOne'])->name('urls');
 
 Route::get('/urls', [UrlController::class, 'showAll'])->name('allUrls');
 
+Route::post('/urls/{id}/checks', [UrlController::class, 'checkUrl'])->name('check');
+
 

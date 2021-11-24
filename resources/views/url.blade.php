@@ -53,7 +53,12 @@
     </table>
 
     <h2 class="display-4">Checks</h2>
-    <button type="button" class="btn btn-primary my-3">Run check</button>
+
+    <form method="post" action="{{ route('check', ['id' => $url->id ]) }}">
+        <input name="_token" type="hidden" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-primary my-3">Run check</button>
+    </form>
+
     <table class="table table-bordered table-hover my-3">
         <thead>
         <tr>
@@ -65,6 +70,15 @@
         </tr>
         </thead>
         <tbody>
+        @foreach($checks as $check)
+        <tr>
+            <td>{{ $check->id }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ $check->created_at }}</td>
+        </tr>
+        @endforeach
 
         </tbody>
     </table>
