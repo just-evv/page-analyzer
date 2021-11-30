@@ -44,7 +44,7 @@ class UrlController extends Controller
         return view('url', ['url' => $url, 'checks' => $checks]);
     }
 
-    public function store(Request $request): Application|RedirectResponse|Redirector
+    public function store(Request $request): object
     {
         $validator = Validator::make(
             $request->all(),
@@ -60,25 +60,22 @@ class UrlController extends Controller
         };
 
         $name = $request->input('name');
-        $date = Carbon::now()->toDateTimeString();
+
         $id = DB::table('urls')->insertGetId(
             [
-                'name' => $name,
-                'created_at' => $date
+                'name' => $name
             ]
         );
         flash('The page successfully added!')->success()->important();
         return redirect()->route('urls', ['id' => $id]);
     }
 
-    public function checkUrl($id)
+    public function checkUrl($id): object
     {
-        $date = Carbon::now()->toDateTimeString();
 
         DB::table('url_checks')->insert(
             [
-                'url_id' => $id,
-                'created_at' => $date
+                'url_id' => $id
             ]
         );
 

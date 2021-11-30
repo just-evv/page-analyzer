@@ -25,8 +25,8 @@ lint:
 deploy:
 	git push heroku main
 
-migrate:
-	php artisan migrate
+docker-migrate:
+	docker-compose exec -T analyzer php artisan migrate
 
 test:
 	php artisan test
