@@ -50,7 +50,7 @@
                 <td>{{ $url->id }}</td>
                 <td><a class="nav-link" href="/urls/{{ $url->id }}"> {{ $url->name }} </a></td>
                 <td>{{ $url->last_check }}</td>
-                <td></td>
+                <td>{{ $url->status_code }}</td>
             </tr>
         @endforeach
 
