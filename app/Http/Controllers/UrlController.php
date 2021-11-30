@@ -23,7 +23,8 @@ class UrlController extends Controller
     public function showAll(): object
     {
         $data = DB::table('urls')
-            ->select('urls.id',
+            ->select(
+                'urls.id',
                 'urls.name',
                 DB::raw('MAX(url_checks.status_code) as status_code'),
                 DB::raw('MAX(url_checks.created_at) as last_check')
