@@ -29,7 +29,7 @@ docker-migrate:
 	docker-compose exec -T analyzer php artisan migrate
 
 test:
-	php artisan test
+	docker-compose exec analyzer php artisan test
 
 test-coverage:
 	./vendor/bin/phpunit --coverage-clover coverage.xml tests
