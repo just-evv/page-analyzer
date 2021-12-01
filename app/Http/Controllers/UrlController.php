@@ -52,20 +52,22 @@ class UrlController extends Controller
 
     public function store(Request $request): object
     {
+
+
         $validator = Validator::make(
-            $request->all(),
+            $request->input('url'),
             [
                 'name' => 'required|unique:urls|url|max:255'
             ]
         );
 
         if ($validator->fails()) {
-            return redirect('/')
+            return redirect()->route('index')
                 ->withErrors($validator)
                 ->withInput();
         };
 
-        $name = $request->input('name');
+        $name = $request->input('url.name');
 
         $id = DB::table('urls')->insertGetId(
             [
@@ -73,7 +75,7 @@ class UrlController extends Controller
             ]
         );
         flash('The page successfully added!')->success()->important();
-        return redirect()->route('urls', ['id' => $id]);
+        return redirect()->route('urls.show', ['id' => $id]);
     }
 
     /**
@@ -94,6 +96,6 @@ class UrlController extends Controller
 
         flash('The page successfully checked!')->success()->important();
 
-        return redirect()->route('urls', ['id' => $id]);
+        return redirect()->route('urls.show', ['id' => $id]);
     }
 }

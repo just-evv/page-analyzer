@@ -19,10 +19,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Main</a>
+                    <a class="nav-link active" href="{{ route('index') }}">Main</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="/urls">Added</a>
+                    <a class="nav-link " href="{{ route('urls.all') }}">Added</a>
                 </li>
             </ul>
         </div>
@@ -54,7 +54,7 @@
 
     <h2 class="display-4">Checks</h2>
 
-    <form method="post" action="{{ route('check', ['id' => $url->id ]) }}">
+    <form method="post" action="{{ route('urls.checks', ['id' => $url->id ]) }}">
         <input name="_token" type="hidden" value="{{ csrf_token() }}">
         <button type="submit" class="btn btn-primary my-3">Run check</button>
     </form>

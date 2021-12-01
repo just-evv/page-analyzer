@@ -20,10 +20,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/">Main</a>
+                    <a class="nav-link active" href="{{ route('index') }}">Main</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="/urls">Added</a>
+                    <a class="nav-link " href="{{ route('urls.all') }}">Added</a>
                 </li>
             </ul>
         </div>
@@ -49,10 +49,12 @@
                 <div class="col-12 col-md-10 col-lg-8 mx-auto text-white">
                     <h1 class="display-3">Website analyzer</h1>
                     <p class="lead">Validate website for seo</p>
-                    <form action="/" method="post" class="d-flex justify-content-center">
-                    @csrf <!-- {{ csrf_field() }} -->
-                        <input type="text" name="name" value="" class="form-control form-control-lg" placeholder="https://www.example.com">
+                    <form action="{{ route('urls.store') }}" method="post" class="d-flex justify-content-center">
+
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="text" name="url[name]" class="form-control form-control-lg" placeholder="https://www.example.com">
                         <button type="submit" class="btn btn-primary ml-3 px-5 text-uppercase">Check</button>
+
                     </form>
                 </div>
             </div>
