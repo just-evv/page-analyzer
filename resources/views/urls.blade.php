@@ -20,10 +20,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Main</a>
+                    <a class="nav-link" href="{{ route('index') }}">Main</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/urls">Added</a>
+                    <a class="nav-link" href="{{ route('urls.all') }}">Added</a>
                 </li>
             </ul>
         </div>
@@ -48,7 +48,7 @@
         @foreach ($data as $url)
             <tr>
                 <td>{{ $url->id }}</td>
-                <td><a class="nav-link" href="/urls/{{ $url->id }}"> {{ $url->name }} </a></td>
+                <td><a class="nav-link" href="{{ route('urls.show', ['id' => $url->id]) }}"> {{ $url->name }} </a></td>
                 <td>{{ $url->last_check }}</td>
                 <td>{{ $url->status_code }}</td>
             </tr>
