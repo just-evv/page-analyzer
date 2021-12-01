@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Lib\CheckUrl;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,12 @@ class UrlController extends Controller
     public function showAll(): object
     {
         $data = DB::table('urls')
-            ->select('urls.id', 'urls.name', DB::raw('MAX(url_checks.created_at) as last_check'))
+            ->select(
+                'urls.id',
+                'urls.name',
+                DB::raw('MAX(url_checks.status_code) as status_code'),
+                DB::raw('MAX(url_checks.created_at) as last_check')
+            )
             ->leftJoin('url_checks', 'urls.id', '=', 'url_checks.url_id')
             ->groupBy('urls.id')
             ->orderBy('urls.id', 'asc')
@@ -70,12 +76,19 @@ class UrlController extends Controller
         return redirect()->route('urls', ['id' => $id]);
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function checkUrl($id): object
     {
+        $url = DB::table('urls')->where('id', $id)->value('name');
+
+        $check = new CheckUrl($url);
 
         DB::table('url_checks')->insert(
             [
-                'url_id' => $id
+                'url_id' => $id,
+                'status_code' => $check->getStatusCode()
             ]
         );
 

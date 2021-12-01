@@ -73,7 +73,7 @@
         @foreach($checks as $check)
         <tr>
             <td>{{ $check->id }}</td>
-            <td></td>
+            <td>{{ $check->status_code }}</td>
             <td></td>
             <td></td>
             <td>{{ $check->created_at }}</td>
