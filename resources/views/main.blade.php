@@ -49,7 +49,7 @@
                 <div class="col-12 col-md-10 col-lg-8 mx-auto text-white">
                     <h1 class="display-3">Website analyzer</h1>
                     <p class="lead">Validate website for seo</p>
-                    <form action="{{ route('urls.store') }}" method="post" class="d-flex justify-content-center">
+                    <form action="{{  secure_url(route('urls.store')) }}" method="post" class="d-flex justify-content-center">
 
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="text" name="url[name]" class="form-control form-control-lg" placeholder="https://www.example.com">
