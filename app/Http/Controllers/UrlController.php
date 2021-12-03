@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CheckUrl;
 use App\Jobs\DBConnector;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -48,9 +49,7 @@ class UrlController extends Controller
         );
 
         if ($validator->fails()) {
-            return redirect()->route('index')
-                ->withErrors($validator)
-                ->withInput();
+            return back()->withErrors($validator)->withInput();
         };
 
         $name = $request->input('url.name');
@@ -71,7 +70,13 @@ class UrlController extends Controller
 
         $check = new CheckUrl($dbConnection->getUrlName($id));
 
-        $dbConnection->urlCheckInsert($id, $check);
+        try {
+            $statusCode = $check->getStatusCode();
+        } catch (GuzzleException $exception) {
+            return back()->withErrors($exception->getMessage())->withInput();
+        }
+
+        $dbConnection->urlCheckInsert($id, $statusCode);
 
         flash('The page successfully checked!')->success()->important();
 

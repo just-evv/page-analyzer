@@ -47,12 +47,12 @@ class DBConnector
         return DB::table('urls')->where('id', $id)->value('name');
     }
 
-    public function urlCheckInsert(int $id, $check): void
+    public function urlCheckInsert(int $id, $statusCode): void
     {
         DB::table('url_checks')->insert(
             [
                 'url_id' => $id,
-                'status_code' => $check->getStatusCode()
+                'status_code' => $statusCode
             //    'h1' => '',
             //    'title' => '',
             //    'description' => ''
