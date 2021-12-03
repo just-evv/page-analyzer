@@ -16,7 +16,7 @@ class UrlsTest extends TestCase
      */
     public function testIndex()
     {
-        $response = $this->get('/');
+        $response = $this->get(route('index'));
         $response->assertOk();
     }
 
@@ -25,6 +25,8 @@ class UrlsTest extends TestCase
         $response = $this->get(route('urls.all'));
         $response->assertOk();
     }
+
+
 
 
 }
