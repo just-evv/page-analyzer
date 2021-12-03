@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Lib\CheckUrl;
+use App\Jobs\CheckUrl;
+use App\Jobs\DBConnector;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class UrlController extends Controller
@@ -16,44 +16,30 @@ class UrlController extends Controller
 
     public function index(): object
     {
-
         return view('main');
     }
 
     public function showAll(): object
     {
-        $data = DB::table('urls')
-            ->select(
-                'urls.id',
-                'urls.name',
-                DB::raw('MAX(url_checks.status_code) as status_code'),
-                DB::raw('MAX(url_checks.created_at) as last_check')
-            )
-            ->leftJoin('url_checks', 'urls.id', '=', 'url_checks.url_id')
-            ->groupBy('urls.id')
-            ->orderBy('urls.id', 'asc')
-            ->paginate(15);
+        $dbConnection = new DBConnector();
 
         return view('urls', [
-            'data' => $data
+            'data' => $dbConnection->getUrlsList()
         ]);
     }
 
     public function showOne(int $id): object
     {
-        $url = DB::table('urls')->find($id);
+        $dbConnection = new DBConnector();
 
-        $checks = DB::table('url_checks')
-            ->where('url_id', $id)
-            ->get();
-
-        return view('url', ['url' => $url, 'checks' => $checks]);
+        return view('url', [
+            'url' => $dbConnection->getUrlInfo($id),
+            'checks' => $dbConnection->getUrlChecks($id)
+        ]);
     }
 
     public function store(Request $request): object
     {
-
-
         $validator = Validator::make(
             $request->input('url'),
             [
@@ -68,12 +54,9 @@ class UrlController extends Controller
         };
 
         $name = $request->input('url.name');
+        $dbConnection = new DBConnector();
+        $id = $dbConnection->nameInsertGetId($name);
 
-        $id = DB::table('urls')->insertGetId(
-            [
-                'name' => $name
-            ]
-        );
         flash('The page successfully added!')->success()->important();
         return redirect()->route('urls.show', ['id' => $id]);
     }
@@ -81,18 +64,14 @@ class UrlController extends Controller
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
+
     public function checkUrl($id): object
     {
-        $url = DB::table('urls')->where('id', $id)->value('name');
+        $dbConnection = new DBConnector();
 
-        $check = new CheckUrl($url);
+        $check = new CheckUrl($dbConnection->getUrlName($id));
 
-        DB::table('url_checks')->insert(
-            [
-                'url_id' => $id,
-                'status_code' => $check->getStatusCode()
-            ]
-        );
+        $dbConnection->urlCheckInsert($id, $check);
 
         flash('The page successfully checked!')->success()->important();
 
