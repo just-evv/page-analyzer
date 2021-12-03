@@ -2,8 +2,7 @@
 
 use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +25,3 @@ Route::get('/urls/{id}', [UrlController::class, 'showOne'])->name('urls.show');
 Route::get('/urls', [UrlController::class, 'showAll'])->name('urls.all');
 
 Route::post('/urls/{id}/checks', [UrlController::class, 'checkUrl'])->name('urls.checks');
-
-

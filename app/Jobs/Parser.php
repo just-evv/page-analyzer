@@ -2,13 +2,10 @@
 
 namespace App\Jobs;
 
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Log;
 
-class CheckUrl
+class Parser
 {
     private $url;
     private $client;
@@ -22,12 +19,10 @@ class CheckUrl
     /**
      * @throws GuzzleException
      */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         $response = $this->client->request('GET', $this->url);
 
         return $response->getStatusCode();
-
     }
-
 }

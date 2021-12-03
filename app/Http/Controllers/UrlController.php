@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\CheckUrl;
+use App\Jobs\Parser;
 use App\Jobs\DBConnector;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UrlController extends Controller
@@ -68,7 +64,7 @@ class UrlController extends Controller
     {
         $dbConnection = new DBConnector();
 
-        $check = new CheckUrl($dbConnection->getUrlName($id));
+        $check = new Parser($dbConnection->getUrlName($id));
 
         try {
             $statusCode = $check->getStatusCode();

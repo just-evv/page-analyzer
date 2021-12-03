@@ -6,19 +6,19 @@ use Illuminate\Support\Facades\DB;
 
 class DBConnector
 {
-    public function getUrlInfo($id):object
+    public function getUrlInfo($id): object
     {
         return DB::table('urls')->find($id);
     }
 
-    public function getUrlChecks($id):object
+    public function getUrlChecks($id): object
     {
         return DB::table('url_checks')
             ->where('url_id', $id)
             ->get();
     }
 
-    public function getUrlsList():object
+    public function getUrlsList(): object
     {
         return DB::table('urls')
             ->select(
@@ -35,7 +35,7 @@ class DBConnector
 
     public function nameInsertGetId(string $name): int
     {
-       return DB::table('urls')->insertGetId(
+        return DB::table('urls')->insertGetId(
             [
                 'name' => $name
             ]
