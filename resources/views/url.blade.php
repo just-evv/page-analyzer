@@ -31,6 +31,15 @@
 
 
 @include('flash::message')
+@if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show container-fluid mb-0" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 
 <div class="container-md align-items-center">
@@ -65,7 +74,8 @@
             <th scope="col">ID</th>
             <th scope="col">Response code</th>
             <th scope="col">h1</th>
-            <th scope="col">Title description</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
             <th scope="col">Created at</th>
         </tr>
         </thead>
@@ -74,6 +84,7 @@
         <tr>
             <td>{{ $check->id }}</td>
             <td>{{ $check->status_code }}</td>
+            <td></td>
             <td></td>
             <td></td>
             <td>{{ $check->created_at }}</td>
