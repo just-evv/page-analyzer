@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use Illuminate\Support\Facades\DB;
 
 class DBConnector
 {
-    public function getUrlInfo($id): object
+    public function getUrlInfo(int $id): object
     {
         return DB::table('urls')->find($id);
     }
 
-    public function getUrlChecks($id): object
+    public function getUrlChecks(int $id): object
     {
         return DB::table('url_checks')
             ->where('url_id', $id)

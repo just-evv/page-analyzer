@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Jobs\Parser;
@@ -60,7 +62,7 @@ class UrlController extends Controller
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function checkUrl($id): object
+    public function checkUrl(int $id): object
     {
         $dbConnection = new DBConnector();
 

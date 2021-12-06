@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use GuzzleHttp\Exception\GuzzleException;
@@ -10,7 +12,7 @@ class Parser
     private $url;
     private $client;
 
-    public function __construct($url)
+    public function __construct(string $url)
     {
         $this->client = new Client(['http_errors' => false]);
         $this->url = $url;
