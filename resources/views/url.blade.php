@@ -84,8 +84,8 @@
         <tr>
             <td>{{ $check->id }}</td>
             <td>{{ $check->status_code }}</td>
-            <td></td>
-            <td></td>
+            <td>{{ $check->h1 }}</td>
+            <td>{{ $check->title }}</td>
             <td></td>
             <td>{{ $check->created_at }}</td>
         </tr>

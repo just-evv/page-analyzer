@@ -60,6 +60,7 @@ class UrlController extends Controller
 
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \DiDom\Exceptions\InvalidSelectorException
      */
 
     public function checkUrl(int $id): object
@@ -74,7 +75,7 @@ class UrlController extends Controller
             return back()->withErrors($exception->getMessage())->withInput();
         }
 
-        $dbConnection->urlCheckInsert($id, $statusCode);
+        $dbConnection->urlCheckInsert($id, $statusCode,$check->getH1(), $check->getTitle());
 
         flash('The page successfully checked!')->success()->important();
 
