@@ -9,6 +9,7 @@ use App\Jobs\DBConnector;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UrlController extends Controller
 {
@@ -60,6 +61,7 @@ class UrlController extends Controller
 
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \DiDom\Exceptions\InvalidSelectorException
      */
 
     public function checkUrl(int $id): object
@@ -74,7 +76,13 @@ class UrlController extends Controller
             return back()->withErrors($exception->getMessage())->withInput();
         }
 
-        $dbConnection->urlCheckInsert($id, $statusCode);
+        $dbConnection->urlCheckInsert(
+            $id,
+            $statusCode,
+            $check->getH1(),
+            $check->getTitle(),
+            $check->getDescription()
+        );
 
         flash('The page successfully checked!')->success()->important();
 

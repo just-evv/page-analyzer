@@ -5,10 +5,11 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "8.0",
         "doctrine/dbal": "^3.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
+        "imangazaliev/didom": "^1.18",
         "kris/laravel-form-builder": "^1.40",
         "laracasts/flash": "^3.2",
         "laravel/framework": "^8.65",
