@@ -82,12 +82,12 @@
         <tbody>
         @foreach($checks as $check)
         <tr>
-            <td>{{ $check->id }}</td>
-            <td>{{ $check->status_code }}</td>
-            <td>{{ $check->h1 }}</td>
-            <td>{{ $check->title }}</td>
-            <td></td>
-            <td>{{ $check->created_at }}</td>
+            <td>{{ $check->id }} </td>
+            <td>{{ $check->status_code }} </td>
+            <td><div class="d-inline-block  text-truncate" style="max-width: 150px;"> {{ $check->h1 }} </div></td>
+            <td><div class="d-inline-block  text-truncate" style="max-width: 150px;"> {{ $check->title }} </div></td>
+            <td><div class="d-inline-block  text-truncate" style="max-width: 150px;"> {{ $check->description }} </div></td>
+            <td>{{ $check->created_at }} </td>
         </tr>
         @endforeach
 

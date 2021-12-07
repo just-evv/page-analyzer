@@ -49,15 +49,15 @@ class DBConnector
         return DB::table('urls')->where('id', $id)->value('name');
     }
 
-    public function urlCheckInsert(int $id, $statusCode, $h1, $title): void
+    public function urlCheckInsert(int $id, $statusCode, $h1, $title, $description): void
     {
         DB::table('url_checks')->insert(
             [
                 'url_id' => $id,
                 'status_code' => $statusCode,
                 'h1' => $h1,
-                'title' => $title
-            //    'description' => ''
+                'title' => $title,
+                'description' => $description
             ]
         );
     }

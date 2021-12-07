@@ -37,12 +37,10 @@ class Parser
     public function getH1(): string|null
     {
         $this->document->loadHtmlFile($this->url);
-
-        if ($this->document->has('h1')) {
-            return $this->document->find('h1')[0]->text();
+        if (count($elements = $this->document->find('h1')) > 0) {
+            return $elements[0]->text();
         }
         return null;
-        
     }
 
     /**
@@ -51,12 +49,19 @@ class Parser
     public function getTitle(): string|null
     {
         $this->document->loadHtmlFile($this->url);
-
-        if ($this->document->has('title')) {
-            return $this->document->find('title')[0]->text();
+        if (count($elements = $this->document->find('title')) > 0) {
+            return $elements[0]->text();
         }
         return null;
     }
 
-
+    /**
+     * @throws \DiDom\Exceptions\InvalidSelectorException
+     */
+    public function getDescription(): string|null
+    {
+        $this->document->loadHtmlFile($this->url);
+        $element = $this->document->first('meta[name=description]');
+        return $element->getAttribute('content');
+    }
 }
