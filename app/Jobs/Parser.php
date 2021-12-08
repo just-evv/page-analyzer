@@ -7,18 +7,15 @@ namespace App\Jobs;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use DiDom\Document;
+use Illuminate\Support\Facades\Http;
 
 class Parser
 {
-    private $url;
-    private $client;
-    private $document;
+    private $response;
 
     public function __construct(string $url)
     {
-        $this->client = new Client(['http_errors' => false]);
-        $this->document = new Document();
-        $this->url = $url;
+        $this->response = HTTP::get($url);
     }
 
     /**
@@ -26,18 +23,27 @@ class Parser
      */
     public function getStatusCode(): int
     {
-        $response = $this->client->request('GET', $this->url);
-
-        return $response->getStatusCode();
+        return $this->response->status();
     }
 
     /**
+     * @throws \DiDom\Exceptions\InvalidSelectorException
+     * @throws GuzzleException
+     */
+    
+    public function getDiDomTree()
+    {
+        return new Document($this->response->body());
+    }
+
+    /**
+     * @throws GuzzleException
      * @throws \DiDom\Exceptions\InvalidSelectorException
      */
     public function getH1(): string|null
     {
-        $this->document->loadHtmlFile($this->url);
-        if (count($elements = $this->document->find('h1')) > 0) {
+        
+        if (count($elements = $this->getDiDomTree()->find('h1')) > 0) {
             return $elements[0]->text();
         }
         return null;
@@ -45,11 +51,12 @@ class Parser
 
     /**
      * @throws \DiDom\Exceptions\InvalidSelectorException
+     * @throws GuzzleException
      */
     public function getTitle(): string|null
     {
-        $this->document->loadHtmlFile($this->url);
-        if (count($elements = $this->document->find('title')) > 0) {
+
+        if (count($elements = $this->getDiDomTree()->find('title')) > 0) {
             return $elements[0]->text();
         }
         return null;
@@ -57,15 +64,13 @@ class Parser
 
     /**
      * @throws \DiDom\Exceptions\InvalidSelectorException
+     * @throws GuzzleException
      */
     public function getDescription(): string|null
     {
-        $this->document->loadHtmlFile($this->url);
-        if (count($elements = $this->document->find('meta[name=description]')) > 0) {
+        if (count($elements = $this->getDiDomTree()->find('meta[name=description]')) > 0) {
             return $elements[0]->getAttribute('content');
         }
         return null;
-       // $element = $this->document->first('meta[name=description]');
-       // return $element->getAttribute('content');
     }
 }
