@@ -8,6 +8,7 @@ use App\Jobs\Parser;
 use App\Jobs\DBConnector;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -43,17 +44,28 @@ class UrlController extends Controller
         $validator = Validator::make(
             $request->input('url'),
             [
-                'name' => 'required|unique:urls|url|max:255'
+                'name' => 'required|url|max:255'
             ]
         );
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
-        };
+        }
 
         $name = $request->input('url.name');
+
+        $parsedUrl = parse_url($name);
+        $host = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+
         $dbConnection = new DBConnector();
-        $id = $dbConnection->nameInsertGetId($name);
+
+        $url = $dbConnection->findName($host);
+
+        if (!is_null($url)) {
+            flash('The page already exists!')->success();
+            return redirect()->route('urls.show', ['id' => $url->id]);
+        }
+        $id = $dbConnection->nameInsertGetId($host);
 
         flash('The page successfully added!')->success()->important();
         return redirect()->route('urls.show', ['id' => $id]);

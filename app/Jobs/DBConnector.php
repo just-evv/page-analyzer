@@ -35,6 +35,11 @@ class DBConnector
             ->paginate(15);
     }
 
+    public function findName(string $name): object|null
+    {
+        return DB::table('urls')->where('name', $name)->first();
+    }
+
     public function nameInsertGetId(string $name): int
     {
         return DB::table('urls')->insertGetId(
