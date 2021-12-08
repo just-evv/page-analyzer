@@ -61,7 +61,11 @@ class Parser
     public function getDescription(): string|null
     {
         $this->document->loadHtmlFile($this->url);
-        $element = $this->document->first('meta[name=description]');
-        return $element->getAttribute('content');
+        if (count($elements = $this->document->find('meta[name=description]')) > 0) {
+            return $elements[0]->getAttribute('content');
+        }
+        return null;
+       // $element = $this->document->first('meta[name=description]');
+       // return $element->getAttribute('content');
     }
 }

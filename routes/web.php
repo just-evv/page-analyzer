@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UrlController::class, 'index'])->name('index');
 
-Route::post('/', [UrlController::class,'store'])->name('urls.store');
+Route::post('/urls', [UrlController::class,'store'])->name('urls.store');
 
 Route::get('/urls/{id}', [UrlController::class, 'showOne'])->name('urls.show');
 
 Route::get('/urls', [UrlController::class, 'showAll'])->name('urls.all');
 
-Route::post('/urls/{id}/checks', [UrlController::class, 'checkUrl'])->name('urls.checks');
+Route::post('/urls/{id}/checks', [UrlController::class, 'checkUrl'])->name('checks.store');
