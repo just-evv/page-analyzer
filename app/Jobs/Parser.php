@@ -30,8 +30,7 @@ class Parser
      * @throws \DiDom\Exceptions\InvalidSelectorException
      * @throws GuzzleException
      */
-    
-    public function getDiDomTree()
+    public function getDiDomTree(): object
     {
         return new Document($this->response->body());
     }
@@ -42,7 +41,6 @@ class Parser
      */
     public function getH1(): string|null
     {
-        
         if (count($elements = $this->getDiDomTree()->find('h1')) > 0) {
             return $elements[0]->text();
         }
