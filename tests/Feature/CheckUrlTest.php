@@ -12,12 +12,11 @@ class CheckUrlTest extends TestCase
 {
     use DatabaseMigrations;
     use DatabaseTransactions;
-    
+
     public function getPathFixture(string $fixtureName): string
     {
         return realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Fixtures', $fixtureName]));
     }
-
 
     public function testCreateCheck(): void
     {
@@ -25,9 +24,7 @@ class CheckUrlTest extends TestCase
         $id = DB::table('urls')->insertGetId([
             'name' => $domainName,
         ]);
-        
         $testPage = file_get_contents($this->getPathFixture('test.html'));
-        
         Http::fake(Http::response($testPage));
         $response = $this
             ->followingRedirects()
