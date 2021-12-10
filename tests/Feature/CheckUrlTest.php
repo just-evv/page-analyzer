@@ -24,8 +24,8 @@ class CheckUrlTest extends TestCase
         $dbConnector = new DBConnector();
         $id = $dbConnector->nameInsertGetId($urlName);
 
-        $testPage = file_get_contents($this->getPathFixture('test.html')) 
-            ? file_get_contents($this->getPathFixture('test.html')) 
+        $testPage = file_get_contents($this->getPathFixture('test.html'))
+            ? file_get_contents($this->getPathFixture('test.html'))
             : null;
 
         Http::fake(function () use ($testPage) {
