@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ class CheckUrlTest extends TestCase
     public function testCreateCheck(): void
     {
         $domain = "https://google.com";
-        $id = DB::table('urls')->insertGetId(['name' => $domain]);
+        $id = DB::table('urls')->insertGetId(['name' => $domain, 'created_at' => CarbonImmutable::now()]);
 
         $testPage = file_get_contents($this->getPathFixture('test.html'));
 

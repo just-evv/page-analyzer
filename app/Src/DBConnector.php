@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Src;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 
 class DBConnector
@@ -44,7 +45,8 @@ class DBConnector
     {
         return DB::table('urls')->insertGetId(
             [
-                'name' => $name
+                'name' => $name,
+                'created_at' => CarbonImmutable::now()
             ]
         );
     }
@@ -66,7 +68,8 @@ class DBConnector
                 'status_code' => $check->getStatusCode(),
                 'h1' => $check->getH1(),
                 'title' => $check->getTitle(),
-                'description' => $check->getDescription()
+                'description' => $check->getDescription(),
+                'created_at' => CarbonImmutable::now()
             ]
         );
     }
