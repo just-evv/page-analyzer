@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Src\DBConnector;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -21,8 +22,9 @@ class CheckUrlTest extends TestCase
 
     public function testCreateCheck(): void
     {
-        $domain = "https://google.com";
-        $id = DB::table('urls')->insertGetId(['name' => $domain, 'created_at' => CarbonImmutable::now()]);
+        $domainName = "https://google.com";
+        $dbConnector = new DBConnector();
+        $id = $dbConnector->nameInsertGetId($domainName);
 
         $testPage = file_get_contents($this->getPathFixture('test.html'));
 
