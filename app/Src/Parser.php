@@ -64,5 +64,4 @@ class Parser
     {
         return optional($this->getResponseBody()->first('meta[name=description]'))->getAttribute('content');
     }
-
 }
