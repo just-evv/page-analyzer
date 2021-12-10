@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 
 class Parser
 {
-    private object $response;
+    public object $response;
 
     /**
      * @throws ConnectionException
@@ -64,4 +64,5 @@ class Parser
     {
         return optional($this->getResponseBody()->first('meta[name=description]'))->getAttribute('content');
     }
+
 }
