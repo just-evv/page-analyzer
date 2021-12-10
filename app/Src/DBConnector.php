@@ -53,18 +53,13 @@ class DBConnector
             ]
         );
     }
-/*
-    public function getUrlName(int $id): string
-    {
-        return DB::table('urls')->where('id', $id)->value('name');
-    }
-*/
+
     /**
      * @throws \DiDom\Exceptions\InvalidSelectorException
      * @throws \GuzzleHttp\Exception\GuzzleException
-     *  @throws ConnectionException
+     * @throws ConnectionException
      */
-    public function urlCheckInsert(int $id): void
+    public function urlCheck(int $id): void
     {
         $url = DB::table('urls')->where('id', $id)->value('name');
 
@@ -89,17 +84,5 @@ class DBConnector
                 'created_at' => CarbonImmutable::now()
             ]
         );
-        /*
-        DB::table('url_checks')->insert(
-            [
-                'url_id' => $id,
-                'status_code' => $check->getStatusCode(),
-                'h1' => $check->getH1(),
-                'title' => $check->getTitle(),
-                'description' => $check->getDescription(),
-                'created_at' => CarbonImmutable::now()
-            ]
-        );
-        */
     }
 }

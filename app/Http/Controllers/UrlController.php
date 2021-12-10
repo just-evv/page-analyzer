@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Src\Parser;
 use App\Src\DBConnector;
 use DiDom\Exceptions\InvalidSelectorException;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class UrlController extends Controller
 {
+    public object $connector;
+    
+    public function __construct()
+    {
+        $this->connector = new DBConnector();
+    }
 
     public function index(): object
     {
@@ -23,20 +27,16 @@ class UrlController extends Controller
 
     public function showAll(): object
     {
-        $dbConnection = new DBConnector();
-
         return view('urls', [
-            'data' => $dbConnection->getUrlsList()
+            'data' => $this->connector->getUrlsList()
         ]);
     }
 
     public function showOne(int $id): object
     {
-        $dbConnection = new DBConnector();
-
         return view('url', [
-            'url' => $dbConnection->getUrlInfo($id),
-            'checks' => $dbConnection->getUrlChecks($id)
+            'url' => $this->connector->getUrlInfo($id),
+            'checks' => $this->connector->getUrlChecks($id)
         ]);
     }
 
@@ -53,20 +53,16 @@ class UrlController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $name = $request->input('url.name');
-
-        $parsedUrl = parse_url($name);
-        $host = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
-
-        $dbConnection = new DBConnector();
-
-        $url = $dbConnection->findName($host);
+        $parsedUrl = parse_url($request->input('url.name'));
+        $name = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+        
+        $url = $this->connector->findName($name);
 
         if (!is_null($url)) {
             flash('The page already exists!')->success();
             return redirect()->route('urls.show', ['id' => $url->id]);
         }
-        $id = $dbConnection->nameInsertGetId($host);
+        $id = $this->connector->nameInsertGetId($name);
 
         flash('The page successfully added!')->success()->important();
         return redirect()->route('urls.show', ['id' => $id]);
@@ -78,10 +74,8 @@ class UrlController extends Controller
      */
     public function checkUrl(int $id): object
     {
-        $dbConnection = new DBConnector();
-
         try {
-            $dbConnection->urlCheckInsert($id);
+            $this->connector->urlCheck($id);
         } catch (ConnectionException $exception) {
             return back()->withErrors($exception->getMessage())->withInput();
         }
