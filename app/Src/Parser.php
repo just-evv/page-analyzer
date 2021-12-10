@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Src;
 
+use Carbon\CarbonImmutable;
 use GuzzleHttp\Exception\GuzzleException;
 use DiDom\Document;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class Parser

@@ -74,7 +74,6 @@ class UrlController extends Controller
 
     /**
      * @throws InvalidSelectorException
-     * @throws RequestException
      * @throws GuzzleException
      */
     public function checkUrl(int $id): object
@@ -82,12 +81,10 @@ class UrlController extends Controller
         $dbConnection = new DBConnector();
 
         try {
-            $check = new Parser($dbConnection->getUrlName($id));
+            $dbConnection->urlCheckInsert($id);
         } catch (ConnectionException $exception) {
             return back()->withErrors($exception->getMessage())->withInput();
         }
-
-        $dbConnection->urlCheckInsert($id, $check);
 
         flash('The page successfully checked!')->success()->important();
 

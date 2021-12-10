@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Src;
 
 use Carbon\CarbonImmutable;
+use DiDom\Document;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class DBConnector
 {
@@ -50,18 +53,43 @@ class DBConnector
             ]
         );
     }
-
+/*
     public function getUrlName(int $id): string
     {
         return DB::table('urls')->where('id', $id)->value('name');
     }
-
+*/
     /**
      * @throws \DiDom\Exceptions\InvalidSelectorException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *  @throws ConnectionException
      */
-    public function urlCheckInsert(int $id, Parser $check): void
+    public function urlCheckInsert(int $id): void
     {
+        $url = DB::table('urls')->where('id', $id)->value('name');
+
+        if (HTTP::get($url)->serverError()) {
+            throw new ConnectionException();
+        }
+
+        $response = HTTP::get($url);
+        $document = new Document($response->body());
+        $status = $response->status();
+        $h1 = optional($document->first('h1'))->text();
+        $title = optional($document->first('title'))->text();
+        $description = optional($document->first('meta[name=description]'))->getAttribute('content');
+
+        DB::table('url_checks')->insert(
+            [
+                'url_id' => $id,
+                'status_code' => $status,
+                'h1' => $h1,
+                'title' => $title,
+                'description' => $description,
+                'created_at' => CarbonImmutable::now()
+            ]
+        );
+        /*
         DB::table('url_checks')->insert(
             [
                 'url_id' => $id,
@@ -72,5 +100,6 @@ class DBConnector
                 'created_at' => CarbonImmutable::now()
             ]
         );
+        */
     }
 }
