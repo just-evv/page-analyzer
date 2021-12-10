@@ -3,10 +3,8 @@
 namespace Tests\Feature;
 
 use App\Src\DBConnector;
-use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -22,11 +20,11 @@ class CheckUrlTest extends TestCase
 
     public function testCreateCheck(): void
     {
-        $domainName = "https://google.com";
+        $urlName = "https://google.com";
         $dbConnector = new DBConnector();
-        $id = $dbConnector->nameInsertGetId($domainName);
+        $id = $dbConnector->nameInsertGetId($urlName);
 
-        $testPage = file_get_contents($this->getPathFixture('test.html'));
+        $testPage = file_get_contents($this->getPathFixture('test.html')) ?: null;
 
         Http::fake(function () use ($testPage) {
             return Http::response($testPage);

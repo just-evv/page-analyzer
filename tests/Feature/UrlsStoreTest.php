@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Src\DBConnector;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class UrlsStoreTest extends TestCase
