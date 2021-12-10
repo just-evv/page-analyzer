@@ -1,3 +1,16 @@
-[![hexlet-check](https://github.com/just-evv/php-project-lvl3/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/just-evv/php-project-lvl3/actions/workflows/hexlet-check.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/26d8cb2e5ded678702ca/maintainability)](https://codeclimate.com/github/just-evv/php-project-lvl3/maintainability)
-[Analyzer](https://just-evv-php-lvl3.herokuapp.com/)
+##Page Analyser
+___
+[![hexlet-check](https://github.com/just-evv/php-project-lvl3/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/just-evv/php-project-lvl3/actions/workflows/hexlet-check.yml) [![PHP CI](https://github.com/just-evv/php-project-lvl3/actions/workflows/workflow.yml/badge.svg)](https://github.com/just-evv/php-project-lvl3/actions/workflows/workflow.yml)
+####[Live](https://just-evv-php-lvl3.herokuapp.com/)
+
+__Page Analyser__ - is a service that inspects website's basic seo compliance. 
+After validating requested url, the app stores the url in database. After requesting a check, the app retrieves following information from the response and stores it in database:
+* Response status code
+And, if applied:
+
+* `<h1>` heading
+* `<title>`
+* the meta name description
+
+
+
