@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class UrlController extends Controller
 {
     public object $connector;
-    
+
     public function __construct()
     {
         $this->connector = new DBConnector();
@@ -55,7 +55,7 @@ class UrlController extends Controller
 
         $parsedUrl = parse_url($request->input('url.name'));
         $name = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
-        
+
         $url = $this->connector->findName($name);
 
         if (!is_null($url)) {
