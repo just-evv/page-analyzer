@@ -13,13 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UrlController extends Controller
 {
-    public object $connector;
-
-    public function __construct()
-    {
-        $this->connector = new DBConnector();
-    }
-
     public function index(): object
     {
         return view('main');
@@ -27,16 +20,20 @@ class UrlController extends Controller
 
     public function showAll(): object
     {
+        $dbConnection = new DBConnector();
+
         return view('urls', [
-            'data' => $this->connector->getUrlsList()
+            'data' => $dbConnection->getUrlsList()
         ]);
     }
 
     public function showOne(int $id): object
     {
+        $dbConnection = new DBConnector();
+
         return view('url', [
-            'url' => $this->connector->getUrlInfo($id),
-            'checks' => $this->connector->getUrlChecks($id)
+            'url' => $dbConnection->getUrlInfo($id),
+            'checks' => $dbConnection->getUrlChecks($id)
         ]);
     }
 
@@ -56,13 +53,15 @@ class UrlController extends Controller
         $parsedUrl = parse_url($request->input('url.name'));
         $name = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
 
-        $url = $this->connector->findName($name);
+        $dbConnection = new DBConnector();
+
+        $url = $dbConnection->findName($name);
 
         if (!is_null($url)) {
             flash('The page already exists!')->success();
             return redirect()->route('urls.show', ['id' => $url->id]);
         }
-        $id = $this->connector->nameInsertGetId($name);
+        $id = $dbConnection->nameInsertGetId($name);
 
         flash('The page successfully added!')->success()->important();
         return redirect()->route('urls.show', ['id' => $id]);
@@ -74,8 +73,10 @@ class UrlController extends Controller
      */
     public function checkUrl(int $id): object
     {
+        $dbConnection = new DBConnector();
+
         try {
-            $this->connector->urlCheck($id);
+            $dbConnection->urlCheck($id);
         } catch (ConnectionException $exception) {
             return back()->withErrors($exception->getMessage())->withInput();
         }
