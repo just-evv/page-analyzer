@@ -28,7 +28,9 @@ class CheckUrlTest extends TestCase
 
         $testPage = file_get_contents($this->getPathFixture('test.html'));
 
-        Http::fake(Http::response($testPage));
+        Http::fake(function() use ($testPage) {
+            return Http::response($testPage);
+        });
 
         $response = $this->followingRedirects()->post(route('checks.store', ['id' => $id]))->assertStatus(200);
 
