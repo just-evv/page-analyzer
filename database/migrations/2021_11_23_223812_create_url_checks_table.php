@@ -15,12 +15,12 @@ class CreateUrlChecksTable extends Migration
     {
         Schema::create('url_checks', function (Blueprint $table) {
             $table->id();
-            $table->integer('url_id');
-            $table->integer('status_code')->nullable();
-            $table->text('h1')->nullable();
-            $table->text('title')->nullable();
-            $table->text('description')->nullable();
-            $table->timestamp('created_at')->default('NOW');
+            $table->foreignId('url_id');
+            $table->integer('status_code')->nullable();           
+            $table->string('title', 255)->nullable();
+            $table->string('description', 255)->nullable();
+            $table->string('h1', 255)->nullable();
+            $table->timestamp('created_at');
         });
     }
 

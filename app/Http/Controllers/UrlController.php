@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Jobs\Parser;
-use App\Jobs\DBConnector;
+use App\Src\DBConnector;
+use DiDom\Exceptions\InvalidSelectorException;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class UrlController extends Controller
 {
-
     public function index(): object
     {
         return view('main');
@@ -43,16 +42,25 @@ class UrlController extends Controller
         $validator = Validator::make(
             $request->input('url'),
             [
-                'name' => 'required|unique:urls|url|max:255'
+                'name' => 'required|url|max:255'
             ]
         );
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
-        };
+        }
 
-        $name = $request->input('url.name');
+        $parsedUrl = parse_url($request->input('url.name'));
+        $name = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+
         $dbConnection = new DBConnector();
+
+        $url = $dbConnection->findName($name);
+
+        if (!is_null($url)) {
+            flash('The page already exists!')->success();
+            return redirect()->route('urls.show', ['id' => $url->id]);
+        }
         $id = $dbConnection->nameInsertGetId($name);
 
         flash('The page successfully added!')->success()->important();
@@ -60,29 +68,18 @@ class UrlController extends Controller
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \DiDom\Exceptions\InvalidSelectorException
+     * @throws InvalidSelectorException
+     * @throws GuzzleException
      */
-
     public function checkUrl(int $id): object
     {
         $dbConnection = new DBConnector();
 
-        $check = new Parser($dbConnection->getUrlName($id));
-
         try {
-            $statusCode = $check->getStatusCode();
-        } catch (GuzzleException $exception) {
+            $dbConnection->urlCheck($id);
+        } catch (ConnectionException $exception) {
             return back()->withErrors($exception->getMessage())->withInput();
         }
-
-        $dbConnection->urlCheckInsert(
-            $id,
-            $statusCode,
-            $check->getH1(),
-            $check->getTitle(),
-            $check->getDescription()
-        );
 
         flash('The page successfully checked!')->success()->important();
 
