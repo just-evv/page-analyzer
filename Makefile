@@ -20,7 +20,7 @@ compose:
 	docker-compose up -d
 
 lint:
-	composer run-script phpcs -- --standard=PSR12 app/Http/Controllers app/Jobs tests
+	composer run-script phpcs -- --standard=PSR12 app/Http/Controllers app/Src tests
 
 deploy:
 	git push heroku main

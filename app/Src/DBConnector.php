@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs;
+namespace App\Src;
 
 use Illuminate\Support\Facades\DB;
 
@@ -54,15 +54,19 @@ class DBConnector
         return DB::table('urls')->where('id', $id)->value('name');
     }
 
-    public function urlCheckInsert(int $id, $statusCode, $h1, $title, $description): void
+    /**
+     * @throws \DiDom\Exceptions\InvalidSelectorException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function urlCheckInsert(int $id, Parser $check): void
     {
         DB::table('url_checks')->insert(
             [
                 'url_id' => $id,
-                'status_code' => $statusCode,
-                'h1' => $h1,
-                'title' => $title,
-                'description' => $description
+                'status_code' => $check->getStatusCode(),
+                'h1' => $check->getH1(),
+                'title' => $check->getTitle(),
+                'description' => $check->getDescription()
             ]
         );
     }

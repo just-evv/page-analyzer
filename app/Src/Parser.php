@@ -2,25 +2,28 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs;
+namespace App\Src;
 
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
 use DiDom\Document;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
 class Parser
 {
-    private $response;
+    private object $response;
 
+    /**
+     * @throws ConnectionException
+     */
     public function __construct(string $url)
     {
+        if (HTTP::get($url)->serverError()) {
+            throw new ConnectionException();
+        }
         $this->response = HTTP::get($url);
     }
 
-    /**
-     * @throws GuzzleException
-     */
     public function getStatusCode(): int
     {
         return $this->response->status();
@@ -30,7 +33,7 @@ class Parser
      * @throws \DiDom\Exceptions\InvalidSelectorException
      * @throws GuzzleException
      */
-    public function getDiDomTree(): object
+    private function getResponseBody(): object
     {
         return new Document($this->response->body());
     }
@@ -41,10 +44,7 @@ class Parser
      */
     public function getH1(): string|null
     {
-        if (count($elements = $this->getDiDomTree()->find('h1')) > 0) {
-            return $elements[0]->text();
-        }
-        return null;
+        return optional($this->getResponseBody()->first('h1'))->text();
     }
 
     /**
@@ -53,11 +53,7 @@ class Parser
      */
     public function getTitle(): string|null
     {
-
-        if (count($elements = $this->getDiDomTree()->find('title')) > 0) {
-            return $elements[0]->text();
-        }
-        return null;
+        return optional($this->getResponseBody()->first('title'))->text();
     }
 
     /**
@@ -66,9 +62,6 @@ class Parser
      */
     public function getDescription(): string|null
     {
-        if (count($elements = $this->getDiDomTree()->find('meta[name=description]')) > 0) {
-            return $elements[0]->getAttribute('content');
-        }
-        return null;
+        return optional($this->getResponseBody()->first('meta[name=description]'))->getAttribute('content');
     }
 }

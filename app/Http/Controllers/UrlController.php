@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Jobs\Parser;
-use App\Jobs\DBConnector;
+use App\Src\Parser;
+use App\Src\DBConnector;
+use DiDom\Exceptions\InvalidSelectorException;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class UrlController extends Controller
 {
@@ -72,29 +73,21 @@ class UrlController extends Controller
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \DiDom\Exceptions\InvalidSelectorException
+     * @throws InvalidSelectorException
+     * @throws RequestException
+     * @throws GuzzleException
      */
-
     public function checkUrl(int $id): object
     {
         $dbConnection = new DBConnector();
 
-        $check = new Parser($dbConnection->getUrlName($id));
-
         try {
-            $statusCode = $check->getStatusCode();
-        } catch (GuzzleException $exception) {
+            $check = new Parser($dbConnection->getUrlName($id));
+        } catch (ConnectionException $exception) {
             return back()->withErrors($exception->getMessage())->withInput();
         }
 
-        $dbConnection->urlCheckInsert(
-            $id,
-            $statusCode,
-            $check->getH1(),
-            $check->getTitle(),
-            $check->getDescription()
-        );
+        $dbConnection->urlCheckInsert($id, $check);
 
         flash('The page successfully checked!')->success()->important();
 
