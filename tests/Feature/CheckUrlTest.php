@@ -28,7 +28,7 @@ class CheckUrlTest extends TestCase
 
         $testPage = file_get_contents($this->getPathFixture('test.html'));
 
-        Http::fake(function() use ($testPage) {
+        Http::fake(function () use ($testPage) {
             return Http::response($testPage);
         });
 
