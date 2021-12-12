@@ -25,7 +25,9 @@
 
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                            <input type="text" name="url[name]" class="form-control form-control-lg" placeholder="https://www.example.com">
+                        <label for="url.name"></label>
+                        <input type="text" name="url[name]" id="url.name" class="form-control form-control-lg" placeholder="https://www.example.com">
+                        
 
                         <button type="submit" class="btn btn-primary ml-3 px-5 text-uppercase">Check</button>
 
