@@ -49,7 +49,7 @@ class DBConnector
         return DB::table('urls')->insertGetId(
             [
                 'name' => $name,
-                'created_at' => CarbonImmutable::now()
+                //'created_at' => CarbonImmutable::now()
             ]
         );
     }
