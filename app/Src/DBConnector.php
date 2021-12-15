@@ -49,7 +49,6 @@ class DBConnector
         return DB::table('urls')->insertGetId(
             [
                 'name' => $name,
-                //'created_at' => CarbonImmutable::now()
             ]
         );
     }
@@ -81,7 +80,6 @@ class DBConnector
                 'h1' => $h1,
                 'title' => $title,
                 'description' => $description,
-                'created_at' => CarbonImmutable::now()
             ]
         );
     }
