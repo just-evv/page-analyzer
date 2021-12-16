@@ -45,5 +45,6 @@ jobs:
           XDEBUG_MODE: coverage
         with:
           coverageCommand: make test-coverage
+          prefix: /var/www/html
           coverageLocations: |
             ${{github.workspace}}/coverage.xml:clover
