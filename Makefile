@@ -32,5 +32,5 @@ test:
 	docker-compose exec -T analyzer php artisan test
 
 test-coverage:
-	./vendor/bin/phpunit --coverage-clover coverage.xml tests
+	docker-compose exec -T analyzer php artisan test --coverage-clover coverage.xml
 

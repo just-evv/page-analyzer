@@ -38,12 +38,13 @@ jobs:
       - name: Run tests
         run: make test
 
-      #- name: Run tests & publish code coverage
-      #  uses: paambaati/codeclimate-action@v2.7.4
-      #  env:
-      #    CC_TEST_REPORTER_ID: ${{secrets.CODE_CLIMATE_SECRET}}
-      #    XDEBUG_MODE: coverage
-      #  with:
-      #    coverageCommand: make test-coverage
-      #    coverageLocations: |
-      #      ${{github.workspace}}/coverage.xml:clover
+      - name: Run tests & publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.4
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CODE_CLIMATE_SECRET}}
+          XDEBUG_MODE: coverage
+        with:
+          coverageCommand: make test-coverage
+          prefix: /var/www/html
+          coverageLocations: |
+            ${{github.workspace}}/coverage.xml:clover
