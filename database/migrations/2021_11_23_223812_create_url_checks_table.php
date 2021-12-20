@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+    use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Facades\Schema;
 
 class CreateUrlChecksTable extends Migration
 {
@@ -20,7 +21,7 @@ class CreateUrlChecksTable extends Migration
             $table->string('title', 255)->nullable();
             $table->string('description', 255)->nullable();
             $table->string('h1', 255)->nullable();
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

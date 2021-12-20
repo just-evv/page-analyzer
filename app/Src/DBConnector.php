@@ -24,12 +24,12 @@ class DBConnector
             ->latest()
             ->get();
     }
-    
+
     public function getPaginatedUrls(): object
     {
         return DB::table('urls')->oldest()->paginate(15);
     }
-    
+
     public function getUrlsLastCheck(): array
     {
         $urls = DB::table('urls')->paginate(15);
