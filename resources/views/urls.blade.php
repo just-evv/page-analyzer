@@ -17,18 +17,23 @@
         </thead>
         <tbody>
 
-        @foreach ($data as $url)
+        @foreach ($paginatedUrls as $url)
             <tr>
                 <td>{{ $url->id }}</td>
                 <td><a class="nav-link" href="{{ route('urls.show', ['id' => $url->id]) }}"> {{ $url->name }} </a></td>
-                <td>{{ $url->last_check }}</td>
-                <td>{{ $url->status_code }}</td>
+                @if(array_key_exists($url->id, $lastChecks))
+                    <td>{{ $lastChecks[$url->id]->created_at }}</td>
+                    <td>{{ $lastChecks[$url->id]->status_code }}</td>
+                @else
+                    <td></td>
+                    <td></td>
+                @endif
             </tr>
         @endforeach
 
         </tbody>
     </table>
-    {{ $data->links('pagination::bootstrap-4') }}
+    {{ $paginatedUrls->links('pagination::bootstrap-4') }}
 
 </div>
     

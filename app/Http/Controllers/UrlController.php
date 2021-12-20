@@ -23,7 +23,8 @@ class UrlController extends Controller
         $dbConnection = new DBConnector();
 
         return view('urls', [
-            'data' => $dbConnection->getUrlsList()
+            'paginatedUrls' => $dbConnection->getPaginatedUrls(),
+            'lastChecks' => $dbConnection->getUrlsLastCheck()
         ]);
     }
 

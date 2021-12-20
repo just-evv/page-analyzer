@@ -21,22 +21,25 @@ class DBConnector
     {
         return DB::table('url_checks')
             ->where('url_id', $id)
+            ->latest()
             ->get();
     }
-
-    public function getUrlsList(): object
+    
+    public function getPaginatedUrls(): object
     {
-        return DB::table('urls')
-            ->select(
-                'urls.id',
-                'urls.name',
-                DB::raw('MAX(url_checks.status_code) as status_code'),
-                DB::raw('MAX(url_checks.created_at) as last_check')
-            )
-            ->leftJoin('url_checks', 'urls.id', '=', 'url_checks.url_id')
-            ->groupBy('urls.id')
-            ->orderBy('urls.id', 'asc')
-            ->paginate(15);
+        return DB::table('urls')->oldest()->paginate(15);
+    }
+    
+    public function getUrlsLastCheck(): array
+    {
+        $urls = DB::table('urls')->paginate(15);
+        return DB::table('url_checks')
+            ->whereIn('url_id', array_column($urls->items(), 'id'))
+            ->distinct()
+            ->orderBy('created_at')
+            ->get()
+            ->keyBy('url_id')
+            ->toArray();
     }
 
     public function findName(string $name): object|null
