@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Src\DBConnector;
+use DiDom\Document;
 use DiDom\Exceptions\InvalidSelectorException;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class UrlController extends Controller
@@ -71,16 +73,42 @@ class UrlController extends Controller
     /**
      * @throws InvalidSelectorException
      * @throws GuzzleException
+     * @throws ConnectionException
      */
     public function checkUrl(int $id): object
     {
         $dbConnection = new DBConnector();
+        $urlName = $dbConnection->getUrlInfo($id)->name;
 
         try {
-            $dbConnection->urlCheck($id);
+            $response = HTTP::get($urlName);
+            if ($response->serverError()) {
+                throw new ConnectionException();
+            }
         } catch (ConnectionException $exception) {
             return back()->withErrors($exception->getMessage())->withInput();
         }
+
+        if ($response->body() == '') {
+            flash('The requested page is empty!')->warning();
+            return back();
+        }
+
+        $document = new Document($response->body());
+        $status = $response->status();
+        $h1 = optional($document->first('h1'))->text();
+        $title = optional($document->first('title'))->text();
+        $description = optional($document->first('meta[name=description]'))->getAttribute('content');
+
+        $args = collect([
+            'id' => $id,
+            'status_code' => $status,
+            'h1' => $h1,
+            'title' => $title,
+            'description' => $description
+        ]);
+
+        $dbConnection->urlCheckInsert($args);
 
         flash('The page successfully checked!')->success()->important();
 

@@ -9,6 +9,7 @@ use DiDom\Document;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use phpDocumentor\Reflection\Types\Collection;
 
 class DBConnector
 {
@@ -56,34 +57,15 @@ class DBConnector
         );
     }
 
-    /**
-     * @throws \DiDom\Exceptions\InvalidSelectorException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws ConnectionException
-     */
-    public function urlCheck(int $id): void
+    public function urlCheckInsert(object $args): void
     {
-        $url = DB::table('urls')->where('id', $id)->value('name');
-
-        if (HTTP::get($url)->serverError()) {
-            throw new ConnectionException();
-        }
-
-        $response = HTTP::get($url);
-        $document = new Document($response->body());
-        $status = $response->status();
-        $h1 = optional($document->first('h1'))->text();
-        $title = optional($document->first('title'))->text();
-        $description = optional($document->first('meta[name=description]'))->getAttribute('content');
-
         DB::table('url_checks')->insert(
             [
-                'url_id' => $id,
-                'status_code' => $status,
-                'h1' => $h1,
-                'title' => $title,
-                'description' => $description,
-                'created_at' => CarbonImmutable::now()
+                'url_id' => $args->get('id'),
+                'status_code' => $args->get('status_code'),
+                'h1' => $args->get('h1'),
+                'title' => $args->get('title'),
+                'description' => $args->get('description'),
             ]
         );
     }
