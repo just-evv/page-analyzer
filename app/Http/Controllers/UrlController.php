@@ -63,7 +63,7 @@ class UrlController extends Controller
         }
         $id = $dbConnection->nameInsertGetId($name);
 
-        flash('The page successfully added!')->success()->important();
+        flash('The page successfully added!')->success();
         return redirect()->route('urls.show', ['id' => $id]);
     }
 
@@ -81,7 +81,7 @@ class UrlController extends Controller
             return back()->withErrors($exception->getMessage())->withInput();
         }
 
-        flash('The page successfully checked!')->success()->important();
+        flash('The page successfully checked!')->success();
 
         return redirect()->route('urls.show', ['id' => $id]);
     }

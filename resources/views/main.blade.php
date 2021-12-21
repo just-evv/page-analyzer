@@ -12,13 +12,11 @@
     </div>
 @endif
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
 <main class="flex-grow-1">
     <div class="jumbotron jumbotron-fluid bg-dark">
         <div class="container-lg">
             <div class="row">
-                <div class="col-12 col-md-10 col-lg-8 mx-auto text-white">
+                <div class="col-12 col-md-10 col-lg-8 mx-auto my-5 text-white">
                     <h1 class="display-3">Website analyzer</h1>
                     <p class="lead">Validate website for seo</p>
                     <form action="{{ route('urls.store') }}" method="post" class="d-flex justify-content-center">
@@ -28,7 +26,6 @@
                         <label for="url.name"></label>
                         <input type="text" name="url[name]" id="url.name" class="form-control form-control-lg" placeholder="https://www.example.com">
                         
-
                         <button type="submit" class="btn btn-primary ml-3 px-5 text-uppercase">Check</button>
 
                     </form>
