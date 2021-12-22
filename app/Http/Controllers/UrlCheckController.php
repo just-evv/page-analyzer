@@ -31,16 +31,13 @@ class UrlCheckController extends Controller
             $response = HTTP::get($urlName);
             if ($response->serverError()) {
                 throw new ConnectionException();
+            } elseif ($response->body() == '') {
+                flash('The requested page is empty!')->warning();
+                return back();
             }
         } catch (ConnectionException $exception) {
             return back()->withErrors($exception->getMessage())->withInput();
         }
-
-        if ($response->body() == '') {
-            flash('The requested page is empty!')->warning();
-            return back();
-        }
-
         $document = new Document($response->body());
         $status = $response->status();
         $h1 = optional($document->first('h1'))->text();
@@ -56,9 +53,7 @@ class UrlCheckController extends Controller
                 'description' => $description
             ]
         );
-
         flash('The page successfully checked!')->success();
-
         return redirect()->route('urls.show', ['url' => $id]);
     }
 

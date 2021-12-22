@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function () {
-        return view('main');
-    })->name('index');
+    return view('main');
+})->name('index');
 
 Route::resource('urls', UrlController::class)->only('index','store', 'show');
 
