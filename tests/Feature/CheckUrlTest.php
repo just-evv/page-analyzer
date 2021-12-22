@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Src\DBConnector;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -21,8 +21,7 @@ class CheckUrlTest extends TestCase
     public function testCreateCheck(): void
     {
         $urlName = "https://google.com";
-        $dbConnector = new DBConnector();
-        $id = $dbConnector->nameInsertGetId($urlName);
+        $id = DB::table('urls')->insertGetId(['name' => $urlName]);
 
         $testPage = (string) file_get_contents($this->getPathFixture('test.html'));
 
