@@ -14,7 +14,7 @@ class UrlsShowTest extends TestCase
 
     public function testUrlsAll()
     {
-        $response = $this->get(route('urls.all'));
+        $response = $this->get(route('urls.index'));
         $response->assertOk();
     }
 }

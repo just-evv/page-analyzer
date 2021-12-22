@@ -1,57 +1,47 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Controllers;
 
-use DiDom\Document;
-use DiDom\Exceptions\InvalidSelectorException;
-use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class UrlController extends Controller
 {
-    public function index(): object
-    {
-        return view('main');
-    }
-
-    public function showAll(): object
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Application|Factory|View
+     */
+    public function index(): View|Factory|Application
     {
         $paginatedUrls = DB::table('urls')->oldest()->paginate(15);
         $urlsLastChecks = DB::table('url_checks')
             ->whereIn('url_id', array_column($paginatedUrls->items(), 'id'))
+            ->latest()
             ->distinct()
-            ->orderBy('created_at')
             ->get()
             ->keyBy('url_id')
             ->toArray();
 
-        return view('urls', [
+        return view('urls.index', [
             'paginatedUrls' => $paginatedUrls,
             'lastChecks' => $urlsLastChecks
         ]);
     }
 
-    public function showOne(int $id): object
-    {
-        $url = DB::table('urls')->find($id);
-        $checks = DB::table('url_checks')
-            ->where('url_id', $id)
-            ->latest()
-            ->get();
-
-        return view('url', [
-            'url' => $url,
-            'checks' => $checks
-        ]);
-    }
-
-    public function store(Request $request): object
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request): RedirectResponse
     {
         $validator = Validator::make(
             $request->input('url'),
@@ -71,56 +61,64 @@ class UrlController extends Controller
 
         if (!is_null($url)) {
             flash('The page already exists!')->success();
-            return redirect()->route('urls.show', ['id' => $url->id]);
+            return redirect()->route('urls.show', ['url' => $url->id]);
         }
 
         $id = DB::table('urls')->insertGetId(['name' => $name]);
 
         flash('The page successfully added!')->success();
-        return redirect()->route('urls.show', ['id' => $id]);
+        return redirect()->route('urls.show', ['url' => $id]);
     }
 
     /**
-     * @throws InvalidSelectorException
-     * @throws GuzzleException
-     * @throws ConnectionException
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return Application|Factory|View
      */
-    public function checkUrl(int $id): object
+    public function show(int $id): View|Factory|Application
     {
-        $urlName = DB::table('urls')->find($id)->name;
+        $url = DB::table('urls')->find($id);
+        $checks = DB::table('url_checks')
+            ->where('url_id', $id)
+            ->latest()
+            ->get();
 
-        try {
-            $response = HTTP::get($urlName);
-            if ($response->serverError()) {
-                throw new ConnectionException();
-            }
-        } catch (ConnectionException $exception) {
-            return back()->withErrors($exception->getMessage())->withInput();
-        }
+        return view('urls.store', [
+            'url' => $url,
+            'checks' => $checks
+        ]);
+    }
 
-        if ($response->body() == '') {
-            flash('The requested page is empty!')->warning();
-            return back();
-        }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
 
-        $document = new Document($response->body());
-        $status = $response->status();
-        $h1 = optional($document->first('h1'))->text();
-        $title = optional($document->first('title'))->text();
-        $description = optional($document->first('meta[name=description]'))->getAttribute('content');
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(int $id)
+    {
+        //
+    }
 
-        DB::table('url_checks')->insert(
-            [
-                'url_id' => $id,
-                'status_code' => $status,
-                'h1' => $h1,
-                'title' => $title,
-                'description' => $description
-            ]
-        );
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, int $id)
+    {
+        //
+    }
 
-        flash('The page successfully checked!')->success();
-
-        return redirect()->route('urls.show', ['id' => $id]);
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(int $id)
+    {
+        //
     }
 }

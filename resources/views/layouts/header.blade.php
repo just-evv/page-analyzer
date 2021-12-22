@@ -11,7 +11,7 @@
                     <a class="nav-link active" href="{{ route('index') }}">Main</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('urls.all') }}">Added</a>
+                    <a class="nav-link " href="{{ route('urls.index') }}">Added</a>
                 </li>
             </ul>
         </div>
