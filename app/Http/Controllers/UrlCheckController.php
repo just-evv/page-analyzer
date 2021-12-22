@@ -31,7 +31,7 @@ class UrlCheckController extends Controller
             $response = HTTP::get($urlName);
             if ($response->serverError()) {
                 throw new ConnectionException();
-            } elseif ($response->body() == '') {
+            } elseif (empty($response->body())) {
                 flash('The requested page is empty!')->warning();
                 return back();
             }

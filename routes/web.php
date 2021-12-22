@@ -18,6 +18,6 @@ Route::get('/', function () {
     return view('main');
 })->name('index');
 
-Route::resource('urls', UrlController::class)->only('index','store', 'show');
+Route::resource('urls', UrlController::class)->only('index', 'store', 'show');
 
 Route::resource('urls.checks', UrlCheckController::class)->only('store');
