@@ -18,7 +18,7 @@ class UrlsStoreTest extends TestCase
         $id = DB::table('urls')->insertGetId(['name' => $domainName]);
         $response = $this
             ->post(route('urls.store'), ['url' => ['name' => $domainName]])
-            ->assertRedirect(route('urls.show', ['id' => $id]));
+            ->assertRedirect(route('urls.show', ['url' => $id]));
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseCount('urls', 1);
     }

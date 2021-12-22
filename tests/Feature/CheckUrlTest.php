@@ -29,7 +29,7 @@ class CheckUrlTest extends TestCase
             return Http::response($testPage);
         });
 
-        $response = $this->followingRedirects()->post(route('checks.store', ['id' => $id]))->assertStatus(200);
+        $response = $this->followingRedirects()->post(route('urls.checks.store', ['url' => $id]))->assertStatus(200);
 
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('url_checks', [

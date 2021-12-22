@@ -35,7 +35,7 @@
 
     <h2 class="display-4 mt-5">Checks</h2>
 
-    <form method="post" action="{{ route('checks.store', ['id' => $url->id ]) }}">
+    <form method="post" action="{{ route('urls.checks.store', ['url' => $url->id ]) }}">
         <input name="_token" type="hidden" value="{{ csrf_token() }}">
         <button type="submit" class="btn btn-primary my-3">Run check</button>
     </form>
