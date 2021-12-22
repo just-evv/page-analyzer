@@ -13,5 +13,14 @@ And, if applied:
 * `<title>`
 * the meta name description
 
+####Installation
+* clone the repository
+* run `make setup`
+  or `make docker-setup` for docker-based environment.
+
+####Starting the app
+ Start the service using `make start` or `make compose` for docker-based environment.
+ You can find the service at [http://localhost:80](http://localhost:80)
+
 
 
