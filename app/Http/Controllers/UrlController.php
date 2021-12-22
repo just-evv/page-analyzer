@@ -23,8 +23,8 @@ class UrlController extends Controller
         $paginatedUrls = DB::table('urls')->oldest()->paginate(15);
         $urlsLastChecks = DB::table('url_checks')
             ->whereIn('url_id', array_column($paginatedUrls->items(), 'id'))
-            ->latest()
             ->distinct()
+            ->latest()
             ->get()
             ->keyBy('url_id')
             ->toArray();
