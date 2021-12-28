@@ -7,8 +7,6 @@ use DiDom\Exceptions\InvalidSelectorException;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
@@ -25,10 +23,15 @@ class UrlCheckController extends Controller
      */
     public function store(int $id): RedirectResponse
     {
-        $urlName = DB::table('urls')->find($id)->name;
+        $url = DB::table('urls')->find($id);
+
+        if (is_null($url)) {
+            flash('The url has not been found')->warning();
+            return back();
+        }
 
         try {
-            $response = HTTP::get($urlName);
+            $response = HTTP::get($url->name);
             if ($response->serverError()) {
                 throw new ConnectionException();
             } elseif ($response->body() == '') {
@@ -55,53 +58,5 @@ class UrlCheckController extends Controller
         );
         flash('The page successfully checked!')->success();
         return redirect()->route('urls.show', ['url' => $id]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(int $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, int $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(int $id)
-    {
-        //
     }
 }

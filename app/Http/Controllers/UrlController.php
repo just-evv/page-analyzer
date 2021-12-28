@@ -7,7 +7,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -38,7 +37,7 @@ class UrlController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
@@ -74,51 +73,25 @@ class UrlController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function show(int $id): View|Factory|Application
+    public function show(int $id): Application|Factory|View|RedirectResponse
     {
         $url = DB::table('urls')->find($id);
+
+        if (is_null($url)) {
+            flash('The url has not been found')->warning();
+            return redirect()->route('index');
+        }
+
         $checks = DB::table('url_checks')
             ->where('url_id', $id)
             ->latest()
             ->get();
 
-        return view('urls.store', [
+        return view('urls.show', [
             'url' => $url,
             'checks' => $checks
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, int $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(int $id)
-    {
-        //
     }
 }
