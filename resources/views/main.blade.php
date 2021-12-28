@@ -20,9 +20,7 @@
                     <h1 class="display-3">Website analyzer</h1>
                     <p class="lead">Validate website for seo</p>
                     <form action="{{ route('urls.store') }}" method="post" class="d-flex justify-content-center">
-
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+                        @csrf
                         <label for="url.name"></label>
                         <input type="text" name="url[name]" id="url.name" class="form-control form-control-lg" placeholder="https://www.example.com">
                         
