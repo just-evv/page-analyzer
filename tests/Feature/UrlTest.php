@@ -2,16 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class UrlTest extends TestCase
 {
-    use DatabaseMigrations;
-    use DatabaseTransactions;
-
     private int $id;
     private array $domain;
 
@@ -42,5 +37,6 @@ class UrlTest extends TestCase
     {
         $response = $this->get(route('urls.show', ['url' => $this->id]));
         $response->assertOk();
+        $response->assertSee($this->domain['name']);
     }
 }
