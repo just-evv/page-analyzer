@@ -20,11 +20,13 @@ class UrlTest extends TestCase
     public function testUrlStore()
     {
         $response = $this
-            ->followingRedirects()
             ->post(route('urls.store'), ['url' => $this->domain])
             ->assertRedirect(route('urls.show', ['url' => $this->id]))
             ->assertSee($this->domain['name']);
         $response->assertSessionHasNoErrors();
+        $this->followingRedirects()
+            ->post(route('urls.store'), ['url' => $this->domain])
+            ->assertSee($this->domain['name']);
         $this->assertDatabaseCount('urls', 1);
         $this->assertDatabaseHas('urls', ['name' => 'https://google.com']);
     }
