@@ -2,19 +2,15 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UrlsShowTest extends TestCase
+class IndexTest extends TestCase
 {
     public function testIndex()
     {
         $response = $this->get(route('index'));
-        $response->assertOk();
-    }
-
-    public function testUrlsAll()
-    {
-        $response = $this->get(route('urls.index'));
         $response->assertOk();
     }
 }
