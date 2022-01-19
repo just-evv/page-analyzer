@@ -81,9 +81,7 @@ class UrlController extends Controller
     {
         $url = DB::table('urls')->find($id);
 
-        if (is_null($url)) {
-            abort(404, 'The page has not been found');
-        }
+        abort_if(is_null($url), 404, 'The page has not been found');
 
         $checks = DB::table('url_checks')
             ->where('url_id', $id)
