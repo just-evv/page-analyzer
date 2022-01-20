@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use DiDom\Document;
@@ -26,8 +28,7 @@ class UrlCheckController extends Controller
         $url = DB::table('urls')->find($id);
 
         if (is_null($url)) {
-            flash('The url has not been found')->warning();
-            return back();
+            abort(404, 'The page has not been found');
         }
 
         try {

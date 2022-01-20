@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use Illuminate\Support\Facades\DB;
@@ -29,16 +31,19 @@ class UrlCheckTest extends TestCase
             return Http::response($testPage);
         });
 
-        $response = $this->followingRedirects()
-            ->post(route('urls.checks.store', ['url' => $this->id]))
-            ->assertStatus(200);
-
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('url_checks', [
+        $expectedResult = [
             'status_code' => 200,
             'h1' => 'test h1',
             'title' => 'test title',
             'description' => 'test description'
-        ]);
+        ];
+
+        $response = $this->followingRedirects()
+            ->post(route('urls.checks.store', ['url' => $this->id]))
+            ->assertStatus(200)
+            ->assertSee($expectedResult);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('url_checks', $expectedResult);
     }
 }

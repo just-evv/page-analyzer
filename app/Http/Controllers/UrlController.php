@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Foundation\Application;
@@ -79,10 +81,7 @@ class UrlController extends Controller
     {
         $url = DB::table('urls')->find($id);
 
-        if (is_null($url)) {
-            flash('The url has not been found')->warning();
-            return redirect()->route('index');
-        }
+        abort_if(is_null($url), 404, 'The page has not been found');
 
         $checks = DB::table('url_checks')
             ->where('url_id', $id)

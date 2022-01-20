@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use Illuminate\Support\Facades\DB;
@@ -17,25 +19,23 @@ class UrlTest extends TestCase
         $this->id = DB::table('urls')->insertGetId($this->domain);
     }
 
-    public function testUrlStore()
+    public function testUrlStore(): void
     {
-        $this->post(route('urls.store'), ['url' => $this->domain])
-            ->assertRedirect(route('urls.show', ['url' => $this->id]))
-            ->assertSessionHasNoErrors();
         $this->followingRedirects()
             ->post(route('urls.store'), ['url' => $this->domain])
+            ->assertOk()
             ->assertSee($this->domain['name']);
         $this->assertDatabaseCount('urls', 1);
         $this->assertDatabaseHas('urls', ['name' => 'https://google.com']);
     }
 
-    public function testUrlIndex()
+    public function testUrlIndex(): void
     {
         $response = $this->get(route('urls.index'));
         $response->assertOk();
     }
 
-    public function testUrlShow()
+    public function testUrlShow(): void
     {
         $response = $this->get(route('urls.show', ['url' => $this->id]));
         $response->assertOk();
