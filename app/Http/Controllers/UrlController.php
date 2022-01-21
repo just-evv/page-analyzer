@@ -52,7 +52,9 @@ class UrlController extends Controller
         );
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            $errors = implode('\n', $validator->errors()->all());
+            flash($errors)->error();
+            return back();
         }
 
         $parsedUrl = parse_url($request->input('url.name'));
