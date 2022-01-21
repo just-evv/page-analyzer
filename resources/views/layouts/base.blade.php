@@ -18,6 +18,18 @@
 
 <main class="flex-grow-1">
     
+    @include('flash::message')
+
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show container-fluid mb-0" role="alert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    
     @yield('content')
     
 </main>
