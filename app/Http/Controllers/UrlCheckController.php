@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use DiDom\Document;
 use DiDom\Exceptions\InvalidSelectorException;
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
@@ -34,7 +35,7 @@ class UrlCheckController extends Controller
             if ($response->serverError()) {
                 throw new ConnectionException();
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             flash($exception->getMessage())->error();
             return back();
         }
