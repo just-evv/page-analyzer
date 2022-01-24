@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use DiDom\Document;
 use DiDom\Exceptions\InvalidSelectorException;
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
@@ -27,20 +28,16 @@ class UrlCheckController extends Controller
     {
         $url = DB::table('urls')->find($id);
 
-        if (is_null($url)) {
-            abort(404, 'The page has not been found');
-        }
+        abort_if(is_null($url), 404, 'The page has not been found');
 
         try {
             $response = HTTP::get($url->name);
             if ($response->serverError()) {
                 throw new ConnectionException();
-            } elseif ($response->body() == '') {
-                flash('The requested page is empty!')->warning();
-                return back();
             }
-        } catch (ConnectionException $exception) {
-            return back()->withErrors($exception->getMessage())->withInput();
+        } catch (Exception $exception) {
+            flash($exception->getMessage())->error();
+            return back();
         }
         $document = new Document($response->body());
         $status = $response->status();

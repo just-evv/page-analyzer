@@ -2,18 +2,6 @@
 
 @section('content')
 
-@include('flash::message')
-@if ($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show container-fluid mb-0" role="alert">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-
 <div class="container-md align-items-center">
 
 <h1 class="display-4 mt-5">Website: {{ $url->name }}</h1>

@@ -18,6 +18,8 @@
 
 <main class="flex-grow-1">
     
+    @include('flash::message')
+
     @yield('content')
     
 </main>

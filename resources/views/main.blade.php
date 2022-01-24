@@ -1,9 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-
-@include('flash::message')
-
+    
 @if ($errors->any())
     <div class="alert alert-danger alert-dismissible fade show container-fluid mb-0" role="alert">
         <ul>
