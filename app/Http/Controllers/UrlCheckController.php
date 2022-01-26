@@ -32,8 +32,8 @@ class UrlCheckController extends Controller
 
         try {
             $response = HTTP::get($url->name);
-            if ($response->serverError()) {
-                throw new ConnectionException();
+            if ($response->failed()) {
+                throw new Exception();
             }
         } catch (Exception $exception) {
             flash($exception->getMessage())->error();
