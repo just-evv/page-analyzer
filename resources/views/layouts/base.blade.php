@@ -6,25 +6,18 @@
     <!-- Bootstrap -->
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <title> @yield('Analyzator')</title>
+    <title>Analyzer</title>
 </head>
-<body class="d-flex flex-column min-vh-100">
-
-@include('layouts.header')
-
-<main class="flex-grow-1">
-    
-    @include('flash::message')
-
-    @yield('content')
-    
-</main>
-
-@include('layouts.footer')
-
+<body class="d-flex flex-column min-vh-100"> 
+    @include('layouts.header')
+    <main class="flex-grow-1">
+        
+        @include('flash::message')
+        @yield('content')
+        
+    </main>
+    @include('layouts.footer')
 </body>
 </html>

@@ -56,7 +56,7 @@ class UrlController extends Controller
         }
 
         $parsedUrl = parse_url($request->input('url.name'));
-        $name = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+            $name = "{$parsedUrl['scheme']}://{$parsedUrl['host']}";
 
         $url = DB::table('urls')->where('name', $name)->first();
 

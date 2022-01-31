@@ -1,7 +1,6 @@
 @extends('layouts.base')
-
 @section('content')
-    
+
 @if ($errors->any())
     <div class="alert alert-danger alert-dismissible fade show container-fluid mb-0" role="alert">
         <ul>
@@ -23,9 +22,7 @@
                         @csrf
                         <label for="url.name"></label>
                         <input type="text" name="url[name]" id="url.name" class="form-control form-control-lg" placeholder="https://www.example.com">
-                        
                         <button type="submit" class="btn btn-primary ml-3 px-5 text-uppercase">Check</button>
-
                     </form>
                 </div>
             </div>
