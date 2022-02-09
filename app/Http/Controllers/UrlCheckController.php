@@ -9,6 +9,7 @@ use DiDom\Exceptions\InvalidSelectorException;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -33,7 +34,10 @@ class UrlCheckController extends Controller
         try {
             $response = HTTP::get($url->name);
             if ($response->failed()) {
-                throw new Exception();
+                throw new Exception("HTTP request returned status code {$response->status()}");
+            } elseif ($response->body() == '') {
+                flash('The requested page is empty!')->warning();
+                return back();
             }
         } catch (Exception $exception) {
             flash($exception->getMessage())->error();

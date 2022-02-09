@@ -1,4 +1,3 @@
-
 <header class="flex-shrink-0">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark p-2">
         <a class="navbar-brand" href="/">Analyzer</a>
