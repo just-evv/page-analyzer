@@ -1,4 +1,5 @@
 @extends('layouts.base')
+@section('title', 'Checks')
 @section('content')
 
 <div class="container-md align-items-center">

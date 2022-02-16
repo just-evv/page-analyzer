@@ -1,4 +1,5 @@
 @extends('layouts.base')
+@section('title', 'Main')
 @section('content')
 
 @if ($errors->any())
