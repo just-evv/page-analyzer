@@ -8,7 +8,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <title>Analyzer</title>
+    <title>Analyzer - @yield('title')</title>
 </head>
 <body class="d-flex flex-column min-vh-100"> 
     @include('layouts.header')

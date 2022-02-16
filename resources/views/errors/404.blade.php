@@ -1,4 +1,5 @@
 @extends('layouts.base')
+@section('title', '404')
 @section('content')
     
     <div class="container-lg align-items-center">

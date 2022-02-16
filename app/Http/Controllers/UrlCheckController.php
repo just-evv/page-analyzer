@@ -6,9 +6,8 @@ namespace App\Http\Controllers;
 
 use DiDom\Document;
 use DiDom\Exceptions\InvalidSelectorException;
-use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +21,6 @@ class UrlCheckController extends Controller
      * @param  int $id
      * @return RedirectResponse
      * @throws InvalidSelectorException
-     * @throws GuzzleException
      * @throws ConnectionException
      */
     public function store(int $id): RedirectResponse
@@ -33,13 +31,7 @@ class UrlCheckController extends Controller
 
         try {
             $response = HTTP::get($url->name);
-            if ($response->failed()) {
-                throw new Exception("HTTP request returned status code {$response->status()}");
-            } elseif ($response->body() == '') {
-                flash('The requested page is empty!')->warning();
-                return back();
-            }
-        } catch (Exception $exception) {
+        } catch (HttpClientException | RequestException $exception) {
             flash($exception->getMessage())->error();
             return back();
         }

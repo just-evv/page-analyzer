@@ -1,4 +1,5 @@
 @extends('layouts.base')
+@section('title', 'Added Websites')
 @section('content')
 
 <div class="container-lg align-items-center">
