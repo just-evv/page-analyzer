@@ -35,7 +35,10 @@ class UrlCheckController extends Controller
             flash($exception->getMessage())->error();
             return back();
         }
-        $document = new Document($response->body());
+        $document = new Document();
+        if ($response->body() !== '') {
+            $document->loadHtml($response->body());
+        }
         $status = $response->status();
         $h1 = optional($document->first('h1'))->text();
         $title = optional($document->first('title'))->text();
