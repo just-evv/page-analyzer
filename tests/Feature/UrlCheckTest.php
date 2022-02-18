@@ -46,4 +46,28 @@ class UrlCheckTest extends TestCase
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('url_checks', $expectedResult);
     }
+
+    public function testCreateCheckResponseEmptyBody(): void
+    {
+        $testPage = (string) file_get_contents($this->getFixturePath('test_empty_body.html'));
+
+        Http::fake(function () use ($testPage) {
+            return Http::response($testPage);
+        });
+
+        $expectedResult = [
+            'status_code' => 200,
+            'h1' => null,
+            'title' => null,
+            'description' => null
+        ];
+
+        $response = $this->followingRedirects()
+            ->post(route('urls.checks.store', ['url' => $this->id]))
+            ->assertStatus(200)
+            ->assertSee($expectedResult);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('url_checks', $expectedResult);
+    }
 }

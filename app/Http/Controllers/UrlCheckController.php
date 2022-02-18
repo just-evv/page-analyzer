@@ -6,12 +6,14 @@ namespace App\Http\Controllers;
 
 use DiDom\Document;
 use DiDom\Exceptions\InvalidSelectorException;
+use Error;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Exception;
 
 class UrlCheckController extends Controller
 {
@@ -35,10 +37,13 @@ class UrlCheckController extends Controller
             flash($exception->getMessage())->error();
             return back();
         }
-        $document = new Document();
-        if ($response->body() !== '') {
-            $document->loadHtml($response->body());
+
+        try {
+            $document = new Document($response->body());
+        } catch (Exception | Error $e) {
+            $document = new Document();
         }
+
         $status = $response->status();
         $h1 = optional($document->first('h1'))->text();
         $title = optional($document->first('title'))->text();
