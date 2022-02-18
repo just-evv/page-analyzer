@@ -40,6 +40,10 @@ class UrlTest extends TestCase
         $this->get(route('urls.show', ['url' => $this->id]))
             ->assertOk()
             ->assertSee($this->domain['name']);
+    }
+
+    public function testUrlShowNotExistingId()
+    {
         $this->get(route('urls.show', ['url' => PHP_INT_MAX]))
             ->assertNotFound();
     }
